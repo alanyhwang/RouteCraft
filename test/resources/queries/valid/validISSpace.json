@@ -1,0 +1,19 @@
+{
+	"title": "validISWildCardSpace",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_instructor": " "
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_instructor",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

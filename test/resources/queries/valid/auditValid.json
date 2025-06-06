@@ -1,0 +1,67 @@
+{
+	"title": "auditValid",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_audit": 15
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "cpsc",
+			"sections_avg": 90.53
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_avg": 90.53
+		},
+		{
+			"sections_dept": "frst",
+			"sections_avg": 85.56
+		},
+		{
+			"sections_dept": "frst",
+			"sections_avg": 85.56
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_avg": 88.79
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_avg": 86.89
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_avg": 77.65
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_avg": 86
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_avg": 87.14
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_avg": 87
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_avg": 87.26
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_avg": 88
+		}
+	]
+}

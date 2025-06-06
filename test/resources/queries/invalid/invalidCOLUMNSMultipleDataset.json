@@ -1,0 +1,19 @@
+{
+	"title": "invalidCOLUMNSMultipleDataset",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_id": "511"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"ss_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

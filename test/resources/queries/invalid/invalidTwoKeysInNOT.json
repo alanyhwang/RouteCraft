@@ -1,0 +1,23 @@
+{
+	"title": "invalidTwoKeysInNOT",
+	"input": {
+		"WHERE": {
+			"NOT": {
+				"GT": {
+					"sections_avg": 20
+				},
+				"LT": {
+					"sections_avg": 10
+				}
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

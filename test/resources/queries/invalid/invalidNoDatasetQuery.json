@@ -1,0 +1,23 @@
+{
+	"title": "invalidNoDatasetQuery",
+	"input": {
+		"WHERE": {
+			"OR": [
+				{
+					"GT": {
+						"avg": 99
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"dept",
+				"avg"
+			],
+			"ORDER": "avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

@@ -1,0 +1,50 @@
+{
+	"title": "validANDThreeItem",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"GT": {
+						"sections_avg": 90
+					}
+				},
+				{
+					"IS": {
+						"sections_dept": "cpsc"
+					}
+				},
+				{
+					"GT": {
+						"sections_pass": 50
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "cpsc",
+			"sections_avg": 90.53
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_avg": 90.53
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_avg": 91.22
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_avg": 91.22
+		}
+	]
+}
