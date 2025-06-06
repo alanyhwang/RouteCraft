@@ -1,0 +1,19 @@
+{
+	"title": "invalidDatasetKey",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_s_id": "511"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_s_dept",
+				"sections_s_avg"
+			],
+			"ORDER": "sections_s_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

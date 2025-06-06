@@ -1,0 +1,19 @@
+{
+	"title": "invalidISInvalidValueType",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_dept": 1990
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_instructor",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

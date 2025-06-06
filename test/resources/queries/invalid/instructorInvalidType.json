@@ -1,0 +1,18 @@
+{
+	"title": "instructorInvalidType",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_instructor": 1
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_instructor",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

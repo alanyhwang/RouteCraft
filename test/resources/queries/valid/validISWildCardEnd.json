@@ -1,0 +1,264 @@
+{
+	"title": "validISWildCardEnd",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_instructor": "*ch"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_instructor",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_instructor": "eberhardt, erik;mayer, ulrich",
+			"sections_avg": 69.84
+		},
+		{
+			"sections_instructor": "austin, philip;harris, sara;mayer, ulrich",
+			"sections_avg": 69.97
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 70.58
+		},
+		{
+			"sections_instructor": "zawadzki, wojciech",
+			"sections_avg": 70.92
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 71.66
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 71.9
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 72.72
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 73.04
+		},
+		{
+			"sections_instructor": "beckie, roger;mayer, ulrich",
+			"sections_avg": 73.05
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 73.69
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 73.82
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 73.86
+		},
+		{
+			"sections_instructor": "atkin, steve;mayer, ulrich",
+			"sections_avg": 74.4
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 74.51
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 74.51
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 75.03
+		},
+		{
+			"sections_instructor": "mayer, ulrich",
+			"sections_avg": 75.32
+		},
+		{
+			"sections_instructor": "atkin, steve;mayer, ulrich",
+			"sections_avg": 75.74
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 75.89
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 75.93
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 75.97
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 76.64
+		},
+		{
+			"sections_instructor": "vogt, erich",
+			"sections_avg": 77.25
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 77.47
+		},
+		{
+			"sections_instructor": "beckie, roger;mayer, ulrich",
+			"sections_avg": 77.9
+		},
+		{
+			"sections_instructor": "mcallister, murdoch",
+			"sections_avg": 78
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 78.12
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 78.14
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 78.16
+		},
+		{
+			"sections_instructor": "beckie, roger;mayer, ulrich",
+			"sections_avg": 78.23
+		},
+		{
+			"sections_instructor": "zawadzki, wojciech",
+			"sections_avg": 78.52
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 78.95
+		},
+		{
+			"sections_instructor": "vogt, erich",
+			"sections_avg": 79
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 79.52
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 79.72
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 79.73
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 79.93
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 80
+		},
+		{
+			"sections_instructor": "saure valenzuela, antoine mich",
+			"sections_avg": 80.44
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 80.48
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 80.52
+		},
+		{
+			"sections_instructor": "zawadzki, wojciech",
+			"sections_avg": 80.55
+		},
+		{
+			"sections_instructor": "zawadzki, wojciech",
+			"sections_avg": 80.77
+		},
+		{
+			"sections_instructor": "beckie, roger;mayer, ulrich",
+			"sections_avg": 80.77
+		},
+		{
+			"sections_instructor": "brown, loch",
+			"sections_avg": 81.25
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 81.47
+		},
+		{
+			"sections_instructor": "saure valenzuela, antoine mich",
+			"sections_avg": 81.5
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 81.69
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 83.4
+		},
+		{
+			"sections_instructor": "saure valenzuela, antoine mich",
+			"sections_avg": 83.46
+		},
+		{
+			"sections_instructor": "beckie, roger;mayer, ulrich",
+			"sections_avg": 83.5
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 83.58
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 84
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 86
+		},
+		{
+			"sections_instructor": "mayer, ulrich",
+			"sections_avg": 86.56
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 87.43
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 87.67
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 87.86
+		},
+		{
+			"sections_instructor": "mayer, ulrich",
+			"sections_avg": 88.75
+		},
+		{
+			"sections_instructor": "mcallister, murdoch",
+			"sections_avg": 91
+		},
+		{
+			"sections_instructor": "hungr, oldrich",
+			"sections_avg": 93.47
+		}
+	]
+}

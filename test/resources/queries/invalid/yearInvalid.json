@@ -1,0 +1,18 @@
+{
+	"title": "yearInvalid",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_year": "2015"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_instructor",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

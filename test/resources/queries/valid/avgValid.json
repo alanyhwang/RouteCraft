@@ -1,0 +1,31 @@
+{
+	"title": "avgValid",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_avg": 99
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_instructor",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_instructor": "cox, daniel",
+			"sections_avg": 99.19
+		},
+		{
+			"sections_instructor": "gomez, jose",
+			"sections_avg": 99.78
+		},
+		{
+			"sections_instructor": "",
+			"sections_avg": 99.78
+		}
+	]
+}

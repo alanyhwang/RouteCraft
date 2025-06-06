@@ -1,0 +1,18 @@
+{
+	"title": "uuidValid",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_uuid": "abc"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

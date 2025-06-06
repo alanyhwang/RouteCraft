@@ -1,0 +1,38 @@
+{
+	"title": "invalid5001Query",
+	"input": {
+		"WHERE": {
+			"OR": [
+				{
+					"GT": {
+						"sections_avg": 89
+					}
+				},
+				{
+					"GT": {
+						"sections_pass": 570
+					}
+				},
+				{
+					"GT": {
+						"sections_fail": 89
+					}
+				},
+				{
+					"IS": {
+						"sections_id": "4180"
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "ResultTooLargeError"
+}

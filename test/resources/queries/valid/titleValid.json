@@ -1,0 +1,39 @@
+{
+	"title": "titleValid",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_title": "intro to eng i"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_title",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_title": "intro to eng i",
+			"sections_avg": 82.08
+		},
+		{
+			"sections_title": "intro to eng i",
+			"sections_avg": 80.28
+		},
+		{
+			"sections_title": "intro to eng i",
+			"sections_avg": 80.49
+		},
+		{
+			"sections_title": "intro to eng i",
+			"sections_avg": 80.37
+		},
+		{
+			"sections_title": "intro to eng i",
+			"sections_avg": 80.78
+		}
+	]
+}

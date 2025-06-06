@@ -1,0 +1,71 @@
+{
+	"title": "instructorValid",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_instructor": "ellis, naoko"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_instructor",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 72.27
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 65.34
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 68.64
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 72.05
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 72.26
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 63.9
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 71.32
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 79.25
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 84.57
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 87.29
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 86.24
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 82.81
+		},
+		{
+			"sections_instructor": "ellis, naoko",
+			"sections_avg": 86.92
+		}
+	]
+}

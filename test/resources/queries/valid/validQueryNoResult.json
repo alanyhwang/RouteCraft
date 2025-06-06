@@ -1,0 +1,19 @@
+{
+	"title": "valid query no result",
+	"input": {
+		"WHERE": {
+			"EQ": {
+				"sections_avg": 2
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}
