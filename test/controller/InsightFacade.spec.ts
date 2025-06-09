@@ -21,6 +21,7 @@ export interface ITestQuery {
 	expected: any;
 }
 
+// wrote TODOs, tests and queries with the help of ChatGPT (customized and modified ChatGPT generated templates)
 describe("InsightFacade", function () {
 	let facade: IInsightFacade;
 
