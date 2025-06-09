@@ -139,12 +139,12 @@ export class SectionDatasetProcessor {
 	//
 	private transformSection(section: any): Section {
 		return {
-			uuid: section.id,
+			uuid: String(section.id),
 			id: section.Course,
 			title: section.Title,
 			instructor: section.Professor,
 			dept: section.Subject,
-			year: section.Year,
+			year: Number(section.Year),
 			avg: section.Avg,
 			pass: section.Pass,
 			fail: section.Fail,
