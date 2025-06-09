@@ -9,6 +9,7 @@ import {
 import { Section, SectionDatasetProcessor } from "./SectionDataProcessor";
 import path from "node:path";
 import { unlink } from "fs/promises";
+import { DATA_DIR } from "../../config";
 
 /**
  * This is the main programmatic entry point for the project.
@@ -65,6 +66,7 @@ export default class InsightFacade implements IInsightFacade {
 	}
 
 	public async removeDataset(id: string): Promise<string> {
+		await this.ensureDatasetsLoaded();
 		// 1. Validate the ID
 		if (!this.isValidId(id)) {
 			throw new InsightError("Invalid ID");
@@ -79,7 +81,7 @@ export default class InsightFacade implements IInsightFacade {
 		this.datasets.delete(id);
 
 		// 4. Remove from disk
-		const filePath = path.resolve(__dirname, "../../data", `${id}.json`);
+		const filePath = path.join(DATA_DIR, `${id}.json`);
 		try {
 			await unlink(filePath); // delete the file
 		} catch (err: any) {

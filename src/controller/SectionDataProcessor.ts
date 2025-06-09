@@ -5,6 +5,7 @@ import { constants } from "fs";
 import { InsightError } from "./IInsightFacade";
 import JSZip from "jszip";
 import path from "node:path";
+import { DATA_DIR } from "../../config";
 
 export interface Section {
 	uuid: string;
@@ -27,7 +28,7 @@ export class SectionDatasetProcessor {
 	// The valid dataset files must be saved to the <PROJECT_DIR>/data directory.
 	constructor(datasetStore: Map<string, Section[]>) {
 		this.datasetStore = datasetStore;
-		this.dataDir = path.resolve(__dirname, "../../data");
+		this.dataDir = DATA_DIR;
 	}
 
 	public async init(): Promise<void> {
@@ -50,14 +51,6 @@ export class SectionDatasetProcessor {
 			if (sections) {
 				this.datasetStore.set(id, sections);
 			}
-		}
-	}
-
-	private async ensureDir(dirPath: string): Promise<void> {
-		try {
-			await mkdir(dirPath, { recursive: true });
-		} catch (e) {
-			throw new InsightError("Failed to create data directory: " + e);
 		}
 	}
 
@@ -137,6 +130,15 @@ export class SectionDatasetProcessor {
 	// 	);
 	// }
 	//
+
+	private async ensureDir(dirPath: string): Promise<void> {
+		try {
+			await mkdir(dirPath, { recursive: true });
+		} catch (e) {
+			throw new InsightError("Failed to create data directory: " + e);
+		}
+	}
+
 	private transformSection(section: any): Section {
 		return {
 			uuid: String(section.id),
