@@ -114,43 +114,43 @@ export class SectionDatasetProcessor {
 			throw new InsightError("No valid sections found in dataset");
 		}
 
-		this.datasetStore.set(id, allSections);
-		await this.saveToDisk(id, allSections);
+		const transformedSections = allSections.map((section: any) => this.transformSection(section));
 
-		return allSections;
+		this.datasetStore.set(id, transformedSections);
+		await this.saveToDisk(id, transformedSections);
+
+		return transformedSections;
 	}
 
 	// private isValidSection(section: any): boolean {
-	//     return (
-	//         section &&
-	//         section === "object" &&
-	//         section.id !== null &&
-	//         section.Course !== null &&
-	//         section.Title !== null &&
-	//         section.Professor !== null &&
-	//         section.Subject !== null &&
-	//         section.Year !== null &&
-	//         section.Avg !== null &&
-	//         section.Pass !== null &&
-	//         section.Fail !== null &&
-	//         section.Audit !== null
-	//     );
+	// 	return (
+	// 		typeof section.id === "number" &&
+	// 		typeof section.Course === "string" &&
+	// 		typeof section.Title === "string" &&
+	// 		typeof section.Professor === "string" &&
+	// 		typeof section.Subject === "string" &&
+	// 		typeof section.Year === "string" &&
+	// 		typeof section.Avg === "number" &&
+	// 		typeof section.Pass === "number" &&
+	// 		typeof section.Fail === "number" &&
+	// 		typeof section.Audit === "number"
+	// 	);
 	// }
 	//
-	// private transformSection(section: any): Section {
-	//     return {
-	//         uuid: section.id,
-	//         id: section.Course,
-	//         title: section.Title,
-	//         instructor: section.Professor,
-	//         dept: section.Subject,
-	//         year: section.Year,
-	//         avg: section.Avg,
-	//         pass: section.Pass,
-	//         fail: section.Fail,
-	//         audit: section.Audit
-	//     };
-	// }
+	private transformSection(section: any): Section {
+		return {
+			uuid: section.id,
+			id: section.Course,
+			title: section.Title,
+			instructor: section.Professor,
+			dept: section.Subject,
+			year: section.Year,
+			avg: section.Avg,
+			pass: section.Pass,
+			fail: section.Fail,
+			audit: section.Audit,
+		};
+	}
 
 	private async saveToDisk(id: string, sections: Section[]): Promise<void> {
 		const filePath = path.join(this.dataDir, `${id}.json`);
