@@ -588,8 +588,10 @@ describe("InsightFacade", function () {
 		it("[invalid/deptInvalidType.json] dept wrong type in query", checkQuery);
 
 		// Query Key Types - Numbers
-		// it("[valid/yearValid.json] year correct type in query", checkQuery);
-		// it("[valid/yearValid2.json] year 2 correct type in query", checkQuery);
+		it("[valid/yearValid.json] year correct type in query", checkQuery);
+		it("[valid/yearValid2.json] year 2 correct type in query", checkQuery);
+		it("[valid/yearValidUUID.json] year 2 correct type in query with uuid", checkQuery);
+		it("[valid/yearValidUUIDOrdered.json] year 2 correct type in query with uuid", checkQuery);
 		it("[invalid/yearInvalid.json] year wrong type in query", checkQuery);
 
 		it("[valid/avgValid.json] avg correct type in query", checkQuery);
