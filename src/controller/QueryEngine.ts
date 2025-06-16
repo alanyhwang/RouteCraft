@@ -124,25 +124,11 @@ export class QueryEngine {
 		if (typeof where !== "object" || where === null) {
 			throw new InsightError("WHERE must be an object");
 		}
+		this.buildInsightResult(where);
 
-		if (Object.keys(where).length === 0) {
-			this.buildInsightResult();
-			return;
+		if (this.hasOrder) {
+			this.orderInsightResult();
 		}
-
-		for (const section of this.queryDataset) {
-			if (this.sectionPassQuery(where, "WHERE", section)) {
-				const transformedSection = this.transformSection(section);
-				this.passedInsightResult.push(transformedSection);
-			}
-		}
-
-		if (this.passedInsightResult.length > this.MAXRESULT) {
-			throw new ResultTooLargeError(
-				"The result is too big. Only queries with a maximum of 5000 results are supported. "
-			);
-		}
-		this.orderInsightResult();
 	}
 
 	public sectionPassQuery(filter: any, parentName: string, section: Section): boolean {
@@ -305,18 +291,32 @@ export class QueryEngine {
 		}
 	}
 
-	private buildInsightResult(): void {
-		if (this.queryDataset.length > this.MAXRESULT) {
+	private buildInsightResult(where: any): void {
+		if (Object.keys(where).length === 0) {
+			if (this.queryDataset.length > this.MAXRESULT) {
+				throw new ResultTooLargeError(
+					"The result is too big. Only queries with a maximum of 5000 results are supported. "
+				);
+			}
+
+			for (const section of this.queryDataset) {
+				const transformedSection = this.transformSection(section);
+				this.passedInsightResult.push(transformedSection);
+			}
+		}
+
+		for (const section of this.queryDataset) {
+			if (this.sectionPassQuery(where, "WHERE", section)) {
+				const transformedSection = this.transformSection(section);
+				this.passedInsightResult.push(transformedSection);
+			}
+		}
+
+		if (this.passedInsightResult.length > this.MAXRESULT) {
 			throw new ResultTooLargeError(
 				"The result is too big. Only queries with a maximum of 5000 results are supported. "
 			);
 		}
-
-		for (const section of this.queryDataset) {
-			const transformedSection = this.transformSection(section);
-			this.passedInsightResult.push(transformedSection);
-		}
-		this.orderInsightResult();
 	}
 
 	private transformSection(section: Section): InsightResult {

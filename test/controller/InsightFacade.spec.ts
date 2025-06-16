@@ -558,7 +558,9 @@ describe("InsightFacade", function () {
 
 		// OPTIONS - ORDER
 		it("[valid/validORDER.json] Valid ORDER", checkQuery);
+		it("[valid/validORDERMoreData.json] Valid ORDER 3000 query data", checkQuery);
 		it("[valid/validNoORDER.json] No ORDER operation", checkQuery);
+		it("[valid/validNoORDERMoreData.json] No ORDER operation 3000 query data", checkQuery);
 		it("[invalid/invalidORDERNotInColumn.json] ORDER key not in COLUMN key list", checkQuery);
 		it("[invalid/invalidORDERBlank.json] ORDER key is blank", checkQuery);
 
