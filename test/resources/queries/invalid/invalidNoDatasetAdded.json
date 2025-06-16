@@ -1,0 +1,18 @@
+{
+	"title": "invalidNoDatasetAdded",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"ubc_audit": 15
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"ubc_dept",
+				"ubc_avg"
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

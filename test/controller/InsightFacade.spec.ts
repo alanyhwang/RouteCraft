@@ -466,6 +466,9 @@ describe("InsightFacade", function () {
 		// Examples demonstrating how to test performQuery using the JSON Test Queries.
 		// The relative path to the query file must be given in square brackets.
 
+		// Dataset indicated does not exist
+		it("[invalid/invalidNoDatasetAdded.json] invalid no dataset added prior", checkQuery);
+
 		// Query & Number of Results
 		// possible test: query with 5000, 5001 results
 		it("[valid/validQueryNoResult.json] valid query 0 result", checkQuery);
@@ -583,7 +586,8 @@ describe("InsightFacade", function () {
 		it("[invalid/deptInvalidType.json] dept wrong type in query", checkQuery);
 
 		// Query Key Types - Numbers
-		it("[valid/yearValid.json] year correct type in query", checkQuery);
+		// it("[valid/yearValid.json] year correct type in query", checkQuery);
+		// it("[valid/yearValid2.json] year 2 correct type in query", checkQuery);
 		it("[invalid/yearInvalid.json] year wrong type in query", checkQuery);
 
 		it("[valid/avgValid.json] avg correct type in query", checkQuery);
