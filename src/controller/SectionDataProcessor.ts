@@ -140,13 +140,14 @@ export class SectionDatasetProcessor {
 	}
 
 	private transformSection(section: any): Section {
+		const defaultYear = 1900;
 		return {
 			uuid: String(section.id),
 			id: section.Course,
 			title: section.Title,
 			instructor: section.Professor,
 			dept: section.Subject,
-			year: Number(section.Year),
+			year: section.Section === "overall" ? defaultYear : Number(section.Year),
 			avg: section.Avg,
 			pass: section.Pass,
 			fail: section.Fail,
