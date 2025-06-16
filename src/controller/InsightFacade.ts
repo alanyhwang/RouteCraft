@@ -10,6 +10,7 @@ import { Section, SectionDatasetProcessor } from "./SectionDataProcessor";
 import path from "node:path";
 import { unlink } from "fs/promises";
 import { DATA_DIR } from "../../config";
+import { QueryEngine } from "./QueryEngine";
 
 /**
  * This is the main programmatic entry point for the project.
@@ -113,8 +114,21 @@ export default class InsightFacade implements IInsightFacade {
 	}
 
 	public async performQuery(query: unknown): Promise<InsightResult[]> {
-		// TODO: Remove this once you implement the methods!
-		throw new Error(`InsightFacadeImpl::performQuery() is unimplemented! - query=${query};`);
+		if (!this.datasetsLoaded || this.datasets.size === 0) {
+			throw new InsightError("No dataset added");
+		}
+
+		if (typeof query !== "object" || query === null) {
+			throw new InsightError("Query must be non-null object");
+		}
+
+		const queryEngine = new QueryEngine(this.datasets);
+
+		const { where, options } = queryEngine.checkQueryValid(query);
+		queryEngine.handleOptions(options);
+		queryEngine.handleWhere(where);
+
+		return queryEngine.getInsightResult();
 	}
 
 	// check for no underscores and checks that if remove whitespaces from ends, length is > 0 (ie at least one char not whitespace)
