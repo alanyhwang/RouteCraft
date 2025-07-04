@@ -97,6 +97,16 @@ describe("InsightFacade", function () {
 			}
 		});
 
+		it("should reject adding a dataset whose id has already been added even if different kind", async function () {
+			try {
+				await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+				await facade.addDataset("ubc", rooms, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown error because of duplicate dataset ID even if different kind of dataset");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
 		it("should reject when content is not in valid base64 format", async function () {
 			const invalidSection = "not_valid_section!";
 
@@ -199,6 +209,26 @@ describe("InsightFacade", function () {
 			try {
 				await facade.addDataset("noIndex", noIndex, InsightDatasetKind.Rooms);
 				expect.fail("Should've thrown because no index.htm file");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
+		it("should reject rooms content that is base64 zip but invalid index htm with no tables file", async function () {
+			const noIndex = await getContentFromArchives("invalid-index-no-tables.zip");
+			try {
+				await facade.addDataset("invalidIndex", noIndex, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown because invalid index.htm file (no tables)");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
+		it("should reject rooms content that is base64 zip but invalid index htm with no buildings table file", async function () {
+			const noIndex = await getContentFromArchives("invalid-index-no-building-tables.zip");
+			try {
+				await facade.addDataset("invalidIndex", noIndex, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown because invalid index.htm file (no building tables)");
 			} catch (err) {
 				expect(err).to.be.instanceOf(InsightError);
 			}

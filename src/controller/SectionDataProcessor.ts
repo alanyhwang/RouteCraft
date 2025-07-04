@@ -71,8 +71,6 @@ export class SectionDatasetProcessor {
 		// Object.values converts object -> keeps just the JSZip Objects
 		// map -> take each of those JSZip Objects (called file) and does what's inside the {}
 		const coursePromises = Object.values(folder.files).map(async (file) => {
-			// if (!file.name.endsWith(".json")) return [];
-
 			// asynchronously read and decode file content as UTF-8 string
 			const fileContent = await file.async("text");
 
@@ -88,10 +86,6 @@ export class SectionDatasetProcessor {
 			if (!data || typeof data !== "object" || !Array.isArray(data.result) || data.result.length === 0) {
 				return [];
 			}
-
-			// return data.result
-			//     .filter((section: any) => this.isValidSection(section))
-			//     .map((section: any) => this.transformSection(section));
 
 			return data.result;
 		});
@@ -114,22 +108,6 @@ export class SectionDatasetProcessor {
 
 		return transformedSections;
 	}
-
-	// private isValidSection(section: any): boolean {
-	// 	return (
-	// 		typeof section.id === "number" &&
-	// 		typeof section.Course === "string" &&
-	// 		typeof section.Title === "string" &&
-	// 		typeof section.Professor === "string" &&
-	// 		typeof section.Subject === "string" &&
-	// 		typeof section.Year === "string" &&
-	// 		typeof section.Avg === "number" &&
-	// 		typeof section.Pass === "number" &&
-	// 		typeof section.Fail === "number" &&
-	// 		typeof section.Audit === "number"
-	// 	);
-	// }
-	//
 
 	private async ensureDir(dirPath: string): Promise<void> {
 		try {
