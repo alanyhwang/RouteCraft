@@ -1,11 +1,12 @@
 // file created with the help of ChatGPT (customized and modified ChatGPT generated templates)
 
-import { access, readFile, writeFile, mkdir, readdir } from "fs/promises";
-import { constants } from "fs";
-import { InsightError } from "./IInsightFacade";
+// import { access, readFile, writeFile, mkdir, readdir } from "fs/promises";
+// import { constants } from "fs";
+import { InsightDatasetKind, InsightError } from "./IInsightFacade";
 import JSZip from "jszip";
-import path from "node:path";
-import { DATA_DIR } from "../../config";
+// import path from "node:path";
+// import { DATA_DIR } from "../../config";
+import { DatasetProcessor } from "./DataProcessor";
 
 export interface Section {
 	uuid: string;
@@ -20,39 +21,39 @@ export interface Section {
 	audit: number;
 }
 
-export class SectionDatasetProcessor {
-	// readonly so these variables never re-initialized to something else
-	private readonly datasetStore: Map<string, Section[]>;
-	private readonly dataDir: string;
+export class SectionDatasetProcessor extends DatasetProcessor {
+	// // readonly so these variables never re-initialized to something else
+	// private readonly datasetStore: Map<string, Section[]>;
+	// private readonly dataDir: string;
+	//
+	// // The valid dataset files must be saved to the <PROJECT_DIR>/data directory.
+	// constructor(datasetStore: Map<string, Section[]>) {
+	// 	this.datasetStore = datasetStore;
+	// 	this.dataDir = DATA_DIR;
+	// }
 
-	// The valid dataset files must be saved to the <PROJECT_DIR>/data directory.
-	constructor(datasetStore: Map<string, Section[]>) {
-		this.datasetStore = datasetStore;
-		this.dataDir = DATA_DIR;
-	}
-
-	public async init(): Promise<void> {
-		await this.ensureDir(this.dataDir);
-		const files = await readdir(this.dataDir);
-
-		const jsonStr = ".json";
-
-		const loadSections = files
-			.filter((file) => file.endsWith(jsonStr))
-			.map(async (file) => {
-				const id = file.slice(0, -jsonStr.length);
-				const sections = await this.loadFromDisk(id);
-				return { id, sections };
-			});
-
-		const results = await Promise.all(loadSections);
-
-		for (const { id, sections } of results) {
-			if (sections) {
-				this.datasetStore.set(id, sections);
-			}
-		}
-	}
+	// public async init(): Promise<void> {
+	// 	await this.ensureDir(this.dataDir);
+	// 	const files = await readdir(this.dataDir);
+	//
+	// 	const jsonStr = ".json";
+	//
+	// 	const loadSections = files
+	// 		.filter((file) => file.endsWith(jsonStr))
+	// 		.map(async (file) => {
+	// 			const id = file.slice(0, -jsonStr.length);
+	// 			const sections = await this.loadFromDisk(id);
+	// 			return { id, sections };
+	// 		});
+	//
+	// 	const results = await Promise.all(loadSections);
+	//
+	// 	for (const { id, sections } of results) {
+	// 		if (sections) {
+	// 			this.datasetStore.set(id, sections);
+	// 		}
+	// 	}
+	// }
 
 	public async processDataset(id: string, base64Content: string): Promise<Section[]> {
 		// loadasync will throw already if base64content isn't base64 or zip ifle
@@ -103,18 +104,26 @@ export class SectionDatasetProcessor {
 
 		const transformedSections = allSections.map((section: any) => this.transformSection(section));
 
-		this.datasetStore.set(id, transformedSections);
+		this.datasetStore.set(id, {
+			kind: this.datasetKind(),
+			data: transformedSections,
+		});
+
 		await this.saveToDisk(id, transformedSections);
 
 		return transformedSections;
 	}
 
-	private async ensureDir(dirPath: string): Promise<void> {
-		try {
-			await mkdir(dirPath, { recursive: true });
-		} catch (e) {
-			throw new InsightError("Failed to create data directory: " + e);
-		}
+	// private async ensureDir(dirPath: string): Promise<void> {
+	// 	try {
+	// 		await mkdir(dirPath, { recursive: true });
+	// 	} catch (e) {
+	// 		throw new InsightError("Failed to create data directory: " + e);
+	// 	}
+	// }
+
+	protected datasetKind(): InsightDatasetKind {
+		return InsightDatasetKind.Sections;
 	}
 
 	private transformSection(section: any): Section {
@@ -133,20 +142,20 @@ export class SectionDatasetProcessor {
 		};
 	}
 
-	private async saveToDisk(id: string, sections: Section[]): Promise<void> {
-		const filePath = path.join(this.dataDir, `${id}.json`);
-		const content = JSON.stringify(sections, null, 2);
-		await writeFile(filePath, content, "utf-8");
-	}
-
-	private async loadFromDisk(id: string): Promise<Section[] | null> {
-		const filePath = path.join(this.dataDir, `${id}.json`);
-		try {
-			await access(filePath, constants.F_OK);
-			const data = await readFile(filePath, "utf-8");
-			return JSON.parse(data);
-		} catch {
-			return null;
-		}
-	}
+	// private async saveToDisk(id: string, sections: Section[]): Promise<void> {
+	// 	const filePath = path.join(this.dataDir, `${id}.json`);
+	// 	const content = JSON.stringify(sections, null, 2);
+	// 	await writeFile(filePath, content, "utf-8");
+	// }
+	//
+	// private async loadFromDisk(id: string): Promise<Section[] | null> {
+	// 	const filePath = path.join(this.dataDir, `${id}.json`);
+	// 	try {
+	// 		await access(filePath, constants.F_OK);
+	// 		const data = await readFile(filePath, "utf-8");
+	// 		return JSON.parse(data);
+	// 	} catch {
+	// 		return null;
+	// 	}
+	// }
 }
