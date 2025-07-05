@@ -6,11 +6,12 @@ import {
 	InsightResult,
 	NotFoundError,
 } from "./IInsightFacade";
-import { Section, SectionDatasetProcessor } from "./SectionDataProcessor";
 import path from "node:path";
 import { unlink } from "fs/promises";
 import { DATA_DIR } from "../../config";
 import { QueryEngine } from "./QueryEngine";
+import { DatasetWrapper } from "./DataProcessor";
+import { SectionDatasetProcessor } from "./SectionDataProcessor";
 
 /**
  * This is the main programmatic entry point for the project.
@@ -20,7 +21,7 @@ import { QueryEngine } from "./QueryEngine";
 
 // wrote implementation and tests with the help of ChatGPT (customized and modified ChatGPT generated templates)
 export default class InsightFacade implements IInsightFacade {
-	private datasets = new Map<string, Section[]>();
+	private datasets = new Map<string, DatasetWrapper>();
 	private sectionProcessor: SectionDatasetProcessor;
 	private datasetsLoaded = false;
 
@@ -50,9 +51,6 @@ export default class InsightFacade implements IInsightFacade {
 				throw new InsightError("Unsupported dataset kind");
 			}
 
-			// // Store in memory
-			// this.datasets.set(id, processed);
-
 			// Return all added dataset ids
 			return Array.from(this.datasets.keys());
 		} catch (e) {
@@ -68,20 +66,17 @@ export default class InsightFacade implements IInsightFacade {
 
 	public async removeDataset(id: string): Promise<string> {
 		await this.ensureDatasetsLoaded();
-		// 1. Validate the ID
+
 		if (!this.isValidId(id)) {
 			throw new InsightError("Invalid ID");
 		}
 
-		// 2. Check existence in memory
 		if (!this.datasets.has(id)) {
 			throw new NotFoundError(`Dataset with id '${id}' not found`);
 		}
 
-		// 3. Remove from memory
 		this.datasets.delete(id);
 
-		// 4. Remove from disk
 		const filePath = path.join(DATA_DIR, `${id}.json`);
 		try {
 			await unlink(filePath); // delete the file
@@ -93,7 +88,6 @@ export default class InsightFacade implements IInsightFacade {
 			}
 		}
 
-		// 5. Return the ID
 		return id;
 	}
 
@@ -102,11 +96,11 @@ export default class InsightFacade implements IInsightFacade {
 
 		const result: InsightDataset[] = [];
 
-		for (const [id, sections] of this.datasets.entries()) {
+		for (const [id, content] of this.datasets.entries()) {
 			result.push({
 				id,
-				kind: InsightDatasetKind.Sections, // or whatever kind you store
-				numRows: sections.length,
+				kind: content.kind,
+				numRows: content.data.length,
 			});
 		}
 

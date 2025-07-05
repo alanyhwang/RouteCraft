@@ -28,11 +28,13 @@ describe("InsightFacade", function () {
 	// Declare datasets used in tests. You should add more datasets like this!
 	let allSections: string;
 	let sections: string;
+	let rooms: string;
 
 	before(async function () {
 		// This block runs once and loads the datasets.
 		allSections = await getContentFromArchives("pair.zip");
 		sections = await getContentFromArchives("smaller_courses.zip");
+		rooms = await getContentFromArchives("campus.zip");
 
 		// Just in case there is anything hanging around from a previous run of the test suite
 		await clearDisk();
@@ -75,9 +77,14 @@ describe("InsightFacade", function () {
 		});
 
 		// don't need try catch because mocha will automatically fail test if unhandled error or rejected promise occurs during async test
-		it("should add a valid dataset", async function () {
+		it("should add a valid sections dataset", async function () {
 			const result = await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 			expect(result).to.have.members(["ubc"]);
+		});
+
+		it("should add a valid rooms dataset", async function () {
+			const result = await facade.addDataset("rooms", rooms, InsightDatasetKind.Rooms);
+			expect(result).to.have.members(["rooms"]);
 		});
 
 		it("should reject adding a dataset whose id has already been added", async function () {
@@ -85,6 +92,16 @@ describe("InsightFacade", function () {
 				await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 				await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 				expect.fail("Should've thrown error because of duplicate dataset ID");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
+		it("should reject adding a dataset whose id has already been added even if different kind", async function () {
+			try {
+				await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+				await facade.addDataset("ubc", rooms, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown error because of duplicate dataset ID even if different kind of dataset");
 			} catch (err) {
 				expect(err).to.be.instanceOf(InsightError);
 			}
@@ -137,7 +154,7 @@ describe("InsightFacade", function () {
 			}
 		});
 
-		it("should reject content that is base64 zip but doesn't have courses in the zip's root directory", async function () {
+		it("should reject sections content that is base64 zip but doesn't have courses in the zip's root directory", async function () {
 			const notCoursesDirectory = await getContentFromArchives("no-courses-directory.zip");
 			try {
 				await facade.addDataset("notCourses", notCoursesDirectory, InsightDatasetKind.Sections);
@@ -147,7 +164,7 @@ describe("InsightFacade", function () {
 			}
 		});
 
-		it("should reject content that is base64 zip but not in json format", async function () {
+		it("should reject content that is base64 zip but not in or html json format", async function () {
 			const notJson = await getContentFromArchives("not-json.zip");
 			try {
 				await facade.addDataset("notJson", notJson, InsightDatasetKind.Sections);
@@ -157,7 +174,7 @@ describe("InsightFacade", function () {
 			}
 		});
 
-		it("should reject content that is base64 zip but no result key in json", async function () {
+		it("should reject sections content that is base64 zip but no result key in json", async function () {
 			const noResultKey = await getContentFromArchives("no-result-in-json.zip");
 			try {
 				await facade.addDataset("noResultKey", noResultKey, InsightDatasetKind.Sections);
@@ -167,7 +184,7 @@ describe("InsightFacade", function () {
 			}
 		});
 
-		it("should reject content that is base64 zip but no valid sections in json", async function () {
+		it("should reject sections content that is base64 zip but no valid sections in json", async function () {
 			const noValidSections = await getContentFromArchives("json-no-valid-sections.zip");
 			try {
 				await facade.addDataset("noValidSections", noValidSections, InsightDatasetKind.Sections);
@@ -177,10 +194,69 @@ describe("InsightFacade", function () {
 			}
 		});
 
-		it("should reject when kind is rooms", async function () {
+		it("should reject rooms content that is base64 zip but no buildings", async function () {
+			const noBuildings = await getContentFromArchives("no-buildings.zip");
+			try {
+				await facade.addDataset("noBuildings", noBuildings, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown because no buildings");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
+		it("should reject rooms content that is base64 zip but no index htm file", async function () {
+			const noIndex = await getContentFromArchives("no-index.zip");
+			try {
+				await facade.addDataset("noIndex", noIndex, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown because no index.htm file");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
+		it("should reject rooms content that is base64 zip but invalid index htm with no tables file", async function () {
+			const noIndex = await getContentFromArchives("invalid-index-no-tables.zip");
+			try {
+				await facade.addDataset("invalidIndex", noIndex, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown because invalid index.htm file (no tables)");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
+		it("should reject rooms content that is base64 zip but invalid index htm with no buildings table file", async function () {
+			const noIndex = await getContentFromArchives("invalid-index-no-building-tables.zip");
+			try {
+				await facade.addDataset("invalidIndex", noIndex, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown because invalid index.htm file (no building tables)");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
+		it("should reject rooms content that is base64 zip but no valid rooms", async function () {
+			const noValidRooms = await getContentFromArchives("no-valid-rooms.zip");
+			try {
+				await facade.addDataset("noValidRooms", noValidRooms, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown because no valid rooms");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
+		it("should reject when content is sections but kind is rooms", async function () {
 			try {
 				await facade.addDataset("ubc", sections, InsightDatasetKind.Rooms);
-				expect.fail("Should've thrown because only valid kind is Sections for C0 and C1");
+				expect.fail("Should've thrown because content is sections but kind is rooms");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
+
+		it("should reject when content is room but kind is sections", async function () {
+			try {
+				await facade.addDataset("rooms", rooms, InsightDatasetKind.Sections);
+				expect.fail("Should've thrown because content is rooms but kind is sections");
 			} catch (err) {
 				expect(err).to.be.instanceOf(InsightError);
 			}
@@ -192,6 +268,14 @@ describe("InsightFacade", function () {
 
 			const result = await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 			expect(result).to.have.members(["ubc"]);
+		});
+
+		it("should add both types of valid datasets and return string array with all added ids", async function () {
+			let result = await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			expect(result).to.have.members(["ubc"]);
+
+			result = await facade.addDataset("rooms", rooms, InsightDatasetKind.Rooms);
+			expect(result).to.have.members(["ubc", "rooms"]);
 		});
 
 		it("should add multiple valid datasets and return string array with all added ids", async function () {
@@ -213,7 +297,7 @@ describe("InsightFacade", function () {
 			expect(result).to.have.members(["UBC", "ubc"]);
 		});
 
-		it("should have persistence to disk so previously added dataset should be re-loaded by a new InsightFacade instance", async function () {
+		it("should have persistence to disk so previously added sections dataset should be re-loaded by a new InsightFacade instance", async function () {
 			// add first dataset
 			await facade.addDataset("first", sections, InsightDatasetKind.Sections);
 
@@ -225,7 +309,7 @@ describe("InsightFacade", function () {
 			expect(result).to.have.members(["first", "second"]);
 		});
 
-		it("should reject adding previously added dataset id in a new InsightFacade instance to test persistence", async function () {
+		it("should reject adding previously added sections dataset id in a new InsightFacade instance to test persistence", async function () {
 			// add first dataset
 			await facade.addDataset("first", sections, InsightDatasetKind.Sections);
 
@@ -239,6 +323,33 @@ describe("InsightFacade", function () {
 				expect(err).to.be.instanceOf(InsightError);
 			}
 		});
+
+		it("should have persistence to disk so previously added rooms dataset should be re-loaded by a new InsightFacade instance", async function () {
+			// add first dataset
+			await facade.addDataset("first", rooms, InsightDatasetKind.Rooms);
+
+			// simulate restart
+			facade = new InsightFacade();
+
+			// add second dataset – the returned array should include BOTH ids
+			const result = await facade.addDataset("second", rooms, InsightDatasetKind.Rooms);
+			expect(result).to.have.members(["first", "second"]);
+		});
+
+		it("should reject adding previously added rooms dataset id in a new InsightFacade instance to test persistence", async function () {
+			// add first dataset
+			await facade.addDataset("first", rooms, InsightDatasetKind.Rooms);
+
+			// simulate restart
+			facade = new InsightFacade();
+
+			try {
+				await facade.addDataset("first", rooms, InsightDatasetKind.Rooms);
+				expect.fail("Should've thrown because this dataset id already added and should've persisted");
+			} catch (err) {
+				expect(err).to.be.instanceOf(InsightError);
+			}
+		});
 	});
 
 	describe("RemoveDataset", function () {
@@ -247,23 +358,17 @@ describe("InsightFacade", function () {
 			facade = new InsightFacade();
 		});
 
-		it("should remove a valid dataset successfully", async function () {
+		it("should remove a valid sections dataset successfully", async function () {
 			await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 			const result = await facade.removeDataset("ubc");
 			expect(result).to.equal("ubc");
 		});
 
-		// it("should have persistence to disk so previously added dataset should be able to be removed in new InsightFacade instance", async function () {
-		// 	// add first dataset
-		// 	await facade.addDataset("first", sections, InsightDatasetKind.Sections);
-		//
-		// 	// simulate restart
-		// 	facade = new InsightFacade();
-		//
-		// 	// add second dataset – the returned array should include BOTH ids
-		// 	const result = await facade.removeDataset("first");
-		// 	expect(result).to.equal("first");
-		// });
+		it("should remove a valid rooms dataset successfully", async function () {
+			await facade.addDataset("rooms", rooms, InsightDatasetKind.Rooms);
+			const result = await facade.removeDataset("rooms");
+			expect(result).to.equal("rooms");
+		});
 
 		it("should reject when removing a dataset with ID that was never added", async function () {
 			try {
@@ -301,12 +406,24 @@ describe("InsightFacade", function () {
 			}
 		});
 
-		it("should reject when trying to remove dataset that was already removed", async function () {
+		it("should reject when trying to remove sections dataset that was already removed", async function () {
 			await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 			await facade.removeDataset("ubc");
 
 			try {
 				await facade.removeDataset("ubc");
+				expect.fail("Should've thrown error because dataset should've already been removed");
+			} catch (err) {
+				expect(err).to.be.instanceOf(NotFoundError);
+			}
+		});
+
+		it("should reject when trying to remove rooms dataset that was already removed", async function () {
+			await facade.addDataset("rooms", rooms, InsightDatasetKind.Rooms);
+			await facade.removeDataset("rooms");
+
+			try {
+				await facade.removeDataset("rooms");
 				expect.fail("Should've thrown error because dataset should've already been removed");
 			} catch (err) {
 				expect(err).to.be.instanceOf(NotFoundError);
@@ -353,6 +470,29 @@ describe("InsightFacade", function () {
 			// map returns an array always so get an array of all the d.ids in ids
 			const ids = ds.map((d) => d.id);
 			expect(ids).to.have.members(["ubc", "sfu", "uvic"]);
+
+			// checking that each entry has correct metadata
+			for (const entry of ds) {
+				expect(entry.kind).to.equal(InsightDatasetKind.Sections);
+				expect(entry.numRows).to.be.greaterThan(0);
+			}
+		});
+
+		it("returns array with all datasets (both sections and rooms)", async function () {
+			await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			await facade.addDataset("rooms", rooms, InsightDatasetKind.Rooms);
+			await facade.addDataset("uvic", sections, InsightDatasetKind.Sections);
+
+			const ds = await facade.listDatasets();
+
+			const numExpected = 3;
+
+			expect(ds).to.have.length(numExpected);
+
+			// looping through every entry in ds array (ie d) and getting d's id (d.id)
+			// map returns an array always so get an array of all the d.ids in ids
+			const ids = ds.map((d) => d.id);
+			expect(ids).to.have.members(["ubc", "rooms", "uvic"]);
 
 			// checking that each entry has correct metadata
 			for (const entry of ds) {

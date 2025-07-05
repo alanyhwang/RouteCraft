@@ -1,5 +1,6 @@
 import { InsightError, InsightResult, ResultTooLargeError } from "./IInsightFacade";
 import { Section } from "./SectionDataProcessor";
+import { DatasetWrapper } from "./DataProcessor";
 
 export class QueryEngine {
 	private readonly MFIELD: string[] = ["avg", "pass", "fail", "audit", "year"];
@@ -14,11 +15,11 @@ export class QueryEngine {
 	private queryColumns: string[];
 	private hasOrder: boolean;
 	private queryOrder: string;
-	private datasets: Map<string, Section[]>;
+	private datasets: Map<string, DatasetWrapper>;
 	private queryDataset: Section[];
 	private passedInsightResult: InsightResult[];
 
-	constructor(datasets: Map<string, Section[]>) {
+	constructor(datasets: Map<string, DatasetWrapper>) {
 		this.queryDatasetName = "";
 		this.queryColumns = [];
 		this.hasOrder = false;
@@ -56,7 +57,7 @@ export class QueryEngine {
 	private initializeDatasetSections(): void {
 		const querySections = this.datasets.get(this.queryDatasetName);
 		if (querySections) {
-			this.queryDataset = querySections.map((section) => ({ ...section }));
+			this.queryDataset = querySections.data.map((section: any) => ({ ...section }));
 		}
 	}
 
@@ -233,7 +234,7 @@ export class QueryEngine {
 		} else if (value.endsWith("*")) {
 			return this.startsWithValue(sField, value, section);
 		} else {
-			return this.matchesValue(sField, value, section);
+			return (section[sField as keyof Section] as string) === value;
 		}
 	}
 
@@ -280,10 +281,10 @@ export class QueryEngine {
 		return sectionVal.startsWith(cleanedValue);
 	}
 
-	private matchesValue(sField: string, value: string, section: Section): boolean {
-		const sectionVal = section[sField as keyof Section] as string;
-		return value === sectionVal;
-	}
+	// private matchesValue(sField: string, value: string, section: Section): boolean {
+	// 	const sectionVal = section[sField as keyof Section] as string;
+	// 	return value === sectionVal;
+	// }
 
 	private handleInputString(inputString: string): void {
 		if (!/^\*?[^*]*\*?$/.test(inputString)) {
