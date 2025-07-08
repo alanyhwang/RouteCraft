@@ -3,13 +3,12 @@
 import { access, readFile, writeFile, mkdir, readdir } from "fs/promises";
 import { constants } from "fs";
 import { InsightDatasetKind, InsightError } from "./IInsightFacade";
-// import JSZip from "jszip";
 import path from "node:path";
 import { DATA_DIR } from "../../config";
 import { Section } from "./SectionDataProcessor";
-// import { Section } from "./SectionDataProcessor";
+import { Room } from "./RoomDataProcessor";
 
-type DatasetData = Section[]; // | Room[];
+type DatasetData = Section[] | Room[];
 
 export interface DatasetWrapper {
 	kind: InsightDatasetKind;
@@ -17,6 +16,7 @@ export interface DatasetWrapper {
 }
 
 export abstract class DatasetProcessor {
+	// // readonly so these variables never re-initialized to something else
 	protected datasetStore: Map<string, DatasetWrapper>;
 	protected dataDir: string;
 
@@ -75,50 +75,30 @@ export abstract class DatasetProcessor {
 			return null;
 		}
 	}
+
+	protected async resolveAndFlatten<U>(promises: Promise<U[]>[], errorMsg: string): Promise<U[]> {
+		// get an array of arrays (cause promise.all returns an array, and in that array
+		// could be the results from each of the courses/buildings (which are also in an array form)
+		const results = await Promise.all(promises);
+
+		// combining the array of arrays into one array (so each entry is from a section/room)
+		const flattened = results.flat();
+
+		if (flattened.length === 0) {
+			throw new InsightError(errorMsg);
+		}
+
+		return flattened;
+	}
+
+	protected storeDataset(id: string, transformedSections: DatasetData): void {
+		this.datasetStore.set(id, {
+			kind: this.datasetKind(),
+			data: transformedSections,
+		});
+	}
+
 	protected abstract datasetKind(): InsightDatasetKind;
 
 	public abstract processDataset(id: string, base64Content: string): Promise<DatasetData>;
 }
-
-// protected async ensureDir(): Promise<void> {
-// 	try {
-// 		await mkdir(this.dataDir, { recursive: true });
-// 	} catch (e) {
-// 		throw new InsightError(`Failed to create data directory: ${e}`);
-// 	}
-// }
-//
-// protected async saveToDisk(id: string, data: T[]): Promise<void> {
-// 	const filePath = path.join(this.dataDir, `${id}.json`);
-// 	const content = JSON.stringify(data, null, 2);
-// 	await writeFile(filePath, content, "utf-8");
-// }
-//
-// protected async loadFromDisk(id: string): Promise<T[] | null> {
-// 	const filePath = path.join(this.dataDir, `${id}.json`);
-// 	try {
-// 		await access(filePath, constants.F_OK);
-// 		const data = await readFile(filePath, "utf-8");
-// 		return JSON.parse(data);
-// 	} catch {
-// 		return null;
-// 	}
-// }
-//
-// public async init(): Promise<void> {
-// 	await this.ensureDir();
-// 	const files = await readdir(this.dataDir);
-//
-// 	for (const file of files) {
-// 		if (!file.endsWith(".json")) continue;
-//
-// 		const id = file.slice(0, -5);
-// 		const content = await this.loadFromDisk(id);
-// 		if (content) {
-// 			this.datasetStore.set(id, {
-// 				kind: this.datasetKind(),
-// 				data: content,
-// 			});
-// 		}
-// 	}
-// }

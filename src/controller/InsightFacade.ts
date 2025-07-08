@@ -12,6 +12,7 @@ import { DATA_DIR } from "../../config";
 import { QueryEngine } from "./QueryEngine";
 import { DatasetWrapper } from "./DataProcessor";
 import { SectionDatasetProcessor } from "./SectionDataProcessor";
+import { RoomDatasetProcessor } from "./RoomDataProcessor";
 
 /**
  * This is the main programmatic entry point for the project.
@@ -23,10 +24,12 @@ import { SectionDatasetProcessor } from "./SectionDataProcessor";
 export default class InsightFacade implements IInsightFacade {
 	private datasets = new Map<string, DatasetWrapper>();
 	private sectionProcessor: SectionDatasetProcessor;
+	private roomProcessor: RoomDatasetProcessor;
 	private datasetsLoaded = false;
 
 	constructor() {
 		this.sectionProcessor = new SectionDatasetProcessor(this.datasets);
+		this.roomProcessor = new RoomDatasetProcessor(this.datasets);
 	}
 
 	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
@@ -47,6 +50,8 @@ export default class InsightFacade implements IInsightFacade {
 			if (kind === InsightDatasetKind.Sections) {
 				// await this.sectionProcessor.init();
 				await this.sectionProcessor.processDataset(id, content);
+			} else if (kind === InsightDatasetKind.Rooms) {
+				await this.roomProcessor.processDataset(id, content);
 			} else {
 				throw new InsightError("Unsupported dataset kind");
 			}

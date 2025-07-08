@@ -494,9 +494,15 @@ describe("InsightFacade", function () {
 			const ids = ds.map((d) => d.id);
 			expect(ids).to.have.members(["ubc", "rooms", "uvic"]);
 
+			const expectedKinds: Record<string, InsightDatasetKind> = {
+				ubc: InsightDatasetKind.Sections,
+				uvic: InsightDatasetKind.Sections,
+				rooms: InsightDatasetKind.Rooms,
+			};
+
 			// checking that each entry has correct metadata
 			for (const entry of ds) {
-				expect(entry.kind).to.equal(InsightDatasetKind.Sections);
+				expect(entry.kind).to.equal(expectedKinds[entry.id]);
 				expect(entry.numRows).to.be.greaterThan(0);
 			}
 		});
