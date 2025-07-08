@@ -46,9 +46,7 @@ export default class InsightFacade implements IInsightFacade {
 		}
 
 		try {
-			// Handle different dataset kinds
 			if (kind === InsightDatasetKind.Sections) {
-				// await this.sectionProcessor.init();
 				await this.sectionProcessor.processDataset(id, content);
 			} else if (kind === InsightDatasetKind.Rooms) {
 				await this.roomProcessor.processDataset(id, content);
@@ -105,7 +103,7 @@ export default class InsightFacade implements IInsightFacade {
 			result.push({
 				id,
 				kind: content.kind,
-				numRows: content.data.length,
+				numRows: content.dataArray.length,
 			});
 		}
 
@@ -138,6 +136,7 @@ export default class InsightFacade implements IInsightFacade {
 	private async ensureDatasetsLoaded(): Promise<void> {
 		if (!this.datasetsLoaded) {
 			await this.sectionProcessor.init();
+			await this.roomProcessor.init();
 			this.datasetsLoaded = true;
 		}
 	}
