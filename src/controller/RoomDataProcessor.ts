@@ -37,19 +37,26 @@ export class RoomDatasetProcessor extends DatasetProcessor {
 			throw new InsightError("Missing index.htm in rooms dataset");
 		}
 
+		// read text content of indexfile
 		const indexHtml = await zip.files[indexFile].async("text");
 
 		const buildingEntries = parseIndex(indexHtml);
 
+		// go through all buildings and find associated room entries
 		const buildingPromises = buildingEntries.map(async (building) => {
+			// cause index.htm contains links like "./campus/discover/buildings-and-classrooms/ALRD.htm"
+			// but zip file contains tree where file would be found without the ./ in beginning
 			const buildingPath = building.buildingPath.replace("./", "");
 
+			// so getting the file of the particular building (ie BIOL.htm) and turning into jszipobject
 			const buildingFile = zip.files[buildingPath];
 
 			if (!buildingFile) return [];
 
+			// reading text in jszipobject
 			const buildingHtml = await buildingFile.async("text");
 
+			// get all valid room entries from each building
 			const roomEntries = parseBuilding(buildingHtml);
 
 			const geoUrl = `${GEO_ENDPOINT}${encodeURIComponent(building.address)}`;

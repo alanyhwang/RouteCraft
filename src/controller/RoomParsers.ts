@@ -19,11 +19,15 @@ export interface RoomEntry {
 }
 
 export function parseIndex(indexHtml: string): BuildingEntry[] {
+	// turn indexhtml into a DOM tree (where #document is firstnode)
 	const doc = parse(indexHtml);
+
 	const tables = findAllNodes(doc, "table");
 
 	const buildingTable = tables.find((table) => {
 		const tds = findAllNodes(table, "td");
+
+		// take first a node we find in getAttribute
 		return tds.some(
 			(td) => hasClass(td, "views-field-title") && getAttribute(findAllNodes(td, "a")[0], "href") !== undefined
 		);
@@ -34,10 +38,13 @@ export function parseIndex(indexHtml: string): BuildingEntry[] {
 	}
 
 	const buildingRows = findAllNodes(buildingTable, "tr");
+
 	const buildings: BuildingEntry[] = [];
 
+	// go through all potential nodes in the building table
 	for (const row of buildingRows) {
 		const cells = findAllNodes(row, "td");
+
 		if (cells.length === 0) continue;
 
 		const titleCell = cells.find((td) => hasClass(td, "views-field-title"));
@@ -46,6 +53,7 @@ export function parseIndex(indexHtml: string): BuildingEntry[] {
 
 		const { href, fullName, code, address } = getBuildingDetails(titleCell, cells);
 
+		// get all valid buildings and details
 		if (href && fullName && code && address) {
 			buildings.push({
 				code: code.trim(),
@@ -65,6 +73,7 @@ export function parseIndex(indexHtml: string): BuildingEntry[] {
 
 export function parseBuilding(buildingHtml: string): RoomEntry[] {
 	const doc = parse(buildingHtml);
+
 	const tables = findAllNodes(doc, "table");
 
 	// find the correct room table
@@ -80,6 +89,7 @@ export function parseBuilding(buildingHtml: string): RoomEntry[] {
 	const roomRows = findAllNodes(roomTable, "tr");
 	const rooms: RoomEntry[] = [];
 
+	// go through all <tr> rows in a particular building and get valid rooms
 	for (const row of roomRows) {
 		const cells = findAllNodes(row, "td");
 		if (cells.length === 0) continue;
@@ -118,8 +128,11 @@ const getBuildingDetails = (
 	code: string;
 	address: string;
 } => {
+	// first <a> element node found and store in linknode
 	const linkNode = findAllNodes(titleCell, "a")[0];
+
 	const href = getAttribute(linkNode, "href");
+
 	const fullName = getText(linkNode);
 
 	const codeCell = cells.find((td) => hasClass(td, "views-field-field-building-code"));
