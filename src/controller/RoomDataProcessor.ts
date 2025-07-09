@@ -81,7 +81,7 @@ export class RoomDatasetProcessor extends DatasetProcessor {
 
 		this.storeDataset(id, allRooms);
 
-		await this.saveToDisk(id, allRooms);
+		await this.saveToDisk(id, allRooms, this.datasetKind());
 
 		return allRooms;
 	}

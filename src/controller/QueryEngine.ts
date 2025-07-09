@@ -57,7 +57,7 @@ export class QueryEngine {
 	private initializeDatasetSections(): void {
 		const querySections = this.datasets.get(this.queryDatasetName);
 		if (querySections) {
-			this.queryDataset = querySections.data.map((section: any) => ({ ...section }));
+			this.queryDataset = querySections.dataArray.map((section: any) => ({ ...section }));
 		}
 	}
 

@@ -507,7 +507,7 @@ describe("InsightFacade", function () {
 			}
 		});
 
-		it("return arrays that reflects that dataset has been removed", async function () {
+		it("return arrays that reflects that sections dataset has been removed", async function () {
 			await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 
 			let ds = await facade.listDatasets();
@@ -518,7 +518,18 @@ describe("InsightFacade", function () {
 			expect(ds).to.deep.equal([]);
 		});
 
-		it("returned array will still have datasets persisted on disk from previous facades", async function () {
+		it("return arrays that reflects that rooms dataset has been removed", async function () {
+			await facade.addDataset("rooms", rooms, InsightDatasetKind.Rooms);
+
+			let ds = await facade.listDatasets();
+			expect(ds).to.have.length(1);
+
+			await facade.removeDataset("rooms");
+			ds = await facade.listDatasets();
+			expect(ds).to.deep.equal([]);
+		});
+
+		it("returned array will still have sections datasets persisted on disk from previous facades", async function () {
 			// first instance: add dataset & implicitly persist
 			await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 
@@ -532,7 +543,21 @@ describe("InsightFacade", function () {
 			expect(ds[0].numRows).to.be.greaterThan(0);
 		});
 
-		it("listDatasets still shows correct added dataset even after failed remove", async function () {
+		it("returned array will still have rooms datasets persisted on disk from previous facades", async function () {
+			// first instance: add dataset & implicitly persist
+			await facade.addDataset("rooms", rooms, InsightDatasetKind.Rooms);
+
+			// simulate a program restart
+			facade = new InsightFacade();
+
+			const ds = await facade.listDatasets();
+			expect(ds).to.have.length(1);
+			expect(ds[0].id).to.equal("rooms");
+			expect(ds[0].kind).to.equal(InsightDatasetKind.Rooms);
+			expect(ds[0].numRows).to.be.greaterThan(0);
+		});
+
+		it("listDatasets still shows correct added sections dataset even after failed remove", async function () {
 			await facade.addDataset("sfu", sections, InsightDatasetKind.Sections);
 
 			try {
@@ -546,6 +571,23 @@ describe("InsightFacade", function () {
 			expect(ds).to.have.length(1);
 			expect(ds[0].id).to.equal("sfu");
 			expect(ds[0].kind).to.equal(InsightDatasetKind.Sections);
+			expect(ds[0].numRows).to.be.greaterThan(0);
+		});
+
+		it("listDatasets still shows correct added rooms dataset even after failed remove", async function () {
+			await facade.addDataset("rooms", rooms, InsightDatasetKind.Rooms);
+
+			try {
+				await facade.removeDataset("ubc"); // should throw NotFoundError
+				expect.fail("Should've thrown error because id doesn't exist");
+			} catch (err) {
+				expect(err).to.be.instanceOf(NotFoundError);
+			}
+
+			const ds = await facade.listDatasets();
+			expect(ds).to.have.length(1);
+			expect(ds[0].id).to.equal("rooms");
+			expect(ds[0].kind).to.equal(InsightDatasetKind.Rooms);
 			expect(ds[0].numRows).to.be.greaterThan(0);
 		});
 	});

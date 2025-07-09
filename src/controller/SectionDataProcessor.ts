@@ -60,7 +60,7 @@ export class SectionDatasetProcessor extends DatasetProcessor {
 
 		this.storeDataset(id, transformedSections);
 
-		await this.saveToDisk(id, transformedSections);
+		await this.saveToDisk(id, transformedSections, this.datasetKind());
 
 		return transformedSections;
 	}

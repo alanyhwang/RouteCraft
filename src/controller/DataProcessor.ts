@@ -12,7 +12,7 @@ type DatasetData = Section[] | Room[];
 
 export interface DatasetWrapper {
 	kind: InsightDatasetKind;
-	data: DatasetData;
+	dataArray: DatasetData;
 }
 
 export abstract class DatasetProcessor {
@@ -35,17 +35,17 @@ export abstract class DatasetProcessor {
 			.filter((file) => file.endsWith(jsonStr))
 			.map(async (file) => {
 				const id = file.slice(0, -jsonStr.length);
-				const data = await this.loadFromDisk(id);
-				return { id, data };
+				const dataArray = await this.loadFromDisk(id);
+				return { id, dataArray };
 			});
 
 		const results = await Promise.all(loadData);
 
-		for (const { id, data } of results) {
-			if (data) {
+		for (const { id, dataArray } of results) {
+			if (dataArray) {
 				this.datasetStore.set(id, {
-					kind: this.datasetKind(),
-					data: data,
+					kind: dataArray.kind,
+					dataArray: dataArray.dataArray,
 				});
 			}
 		}
@@ -59,18 +59,23 @@ export abstract class DatasetProcessor {
 		}
 	}
 
-	protected async saveToDisk(id: string, data: DatasetData): Promise<void> {
+	protected async saveToDisk(id: string, dataArray: DatasetData, kind: InsightDatasetKind): Promise<void> {
 		const filePath = path.join(this.dataDir, `${id}.json`);
-		const content = JSON.stringify(data, null, 2);
+		const content = JSON.stringify({ kind, dataArray }, null, 2);
 		await writeFile(filePath, content, "utf-8");
 	}
 
-	protected async loadFromDisk(id: string): Promise<DatasetData | null> {
+	protected async loadFromDisk(id: string): Promise<{ kind: InsightDatasetKind; dataArray: DatasetData } | null> {
 		const filePath = path.join(this.dataDir, `${id}.json`);
 		try {
 			await access(filePath, constants.F_OK);
-			const data = await readFile(filePath, "utf-8");
-			return JSON.parse(data);
+			const fileContent = await readFile(filePath, "utf-8");
+			const parsed = JSON.parse(fileContent);
+
+			if (parsed?.kind && parsed.dataArray) {
+				return parsed;
+			}
+			return null;
 		} catch {
 			return null;
 		}
@@ -94,7 +99,7 @@ export abstract class DatasetProcessor {
 	protected storeDataset(id: string, transformedSections: DatasetData): void {
 		this.datasetStore.set(id, {
 			kind: this.datasetKind(),
-			data: transformedSections,
+			dataArray: transformedSections,
 		});
 	}
 
