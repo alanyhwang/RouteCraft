@@ -121,10 +121,7 @@ export default class InsightFacade implements IInsightFacade {
 
 		const queryEngine = new QueryEngine(this.datasets);
 
-		const { where, options } = queryEngine.checkQueryValid(query);
-		queryEngine.handleOptions(options);
-		queryEngine.handleWhere(where);
-
+		queryEngine.makeQuery(query);
 		return queryEngine.getInsightResult();
 	}
 
