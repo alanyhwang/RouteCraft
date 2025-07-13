@@ -1,0 +1,483 @@
+{
+	"title": "validTransformation2Group1Apply",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_audit": 5
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_id",
+				"sections_pass",
+				"overallAvg"
+			]
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"sections_id",
+				"sections_pass"
+			],
+			"APPLY": [
+				{
+					"overallAvg": {
+						"AVG": "sections_avg"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_id": "504",
+			"sections_pass": 9,
+			"overallAvg": 94.44
+		},
+		{
+			"sections_id": "200",
+			"sections_pass": 1147,
+			"overallAvg": 69.54
+		},
+		{
+			"sections_id": "200",
+			"sections_pass": 1126,
+			"overallAvg": 71.78
+		},
+		{
+			"sections_id": "509",
+			"sections_pass": 8,
+			"overallAvg": 85.67
+		},
+		{
+			"sections_id": "376",
+			"sections_pass": 75,
+			"overallAvg": 84.09
+		},
+		{
+			"sections_id": "457",
+			"sections_pass": 48,
+			"overallAvg": 80.81
+		},
+		{
+			"sections_id": "101",
+			"sections_pass": 211,
+			"overallAvg": 74.04
+		},
+		{
+			"sections_id": "513",
+			"sections_pass": 28,
+			"overallAvg": 76.83
+		},
+		{
+			"sections_id": "301",
+			"sections_pass": 17,
+			"overallAvg": 84.59
+		},
+		{
+			"sections_id": "301",
+			"sections_pass": 20,
+			"overallAvg": 84.6
+		},
+		{
+			"sections_id": "295",
+			"sections_pass": 662,
+			"overallAvg": 73.86
+		},
+		{
+			"sections_id": "394",
+			"sections_pass": 39,
+			"overallAvg": 77.05
+		},
+		{
+			"sections_id": "394",
+			"sections_pass": 689,
+			"overallAvg": 75.65
+		},
+		{
+			"sections_id": "340",
+			"sections_pass": 33,
+			"overallAvg": 76.21
+		},
+		{
+			"sections_id": "340",
+			"sections_pass": 86,
+			"overallAvg": 77.93
+		},
+		{
+			"sections_id": "340",
+			"sections_pass": 146,
+			"overallAvg": 80.29
+		},
+		{
+			"sections_id": "540",
+			"sections_pass": 54,
+			"overallAvg": 91.22
+		},
+		{
+			"sections_id": "540",
+			"sections_pass": 59,
+			"overallAvg": 90.53
+		},
+		{
+			"sections_id": "102",
+			"sections_pass": 1827,
+			"overallAvg": 68.98
+		},
+		{
+			"sections_id": "345",
+			"sections_pass": 117,
+			"overallAvg": 67.26
+		},
+		{
+			"sections_id": "345",
+			"sections_pass": 379,
+			"overallAvg": 70.77
+		},
+		{
+			"sections_id": "560",
+			"sections_pass": 3,
+			"overallAvg": 93.33
+		},
+		{
+			"sections_id": "504",
+			"sections_pass": 7,
+			"overallAvg": 84.14
+		},
+		{
+			"sections_id": "449",
+			"sections_pass": 24,
+			"overallAvg": 89.96
+		},
+		{
+			"sections_id": "682",
+			"sections_pass": 9,
+			"overallAvg": 95
+		},
+		{
+			"sections_id": "683",
+			"sections_pass": 10,
+			"overallAvg": 90.8
+		},
+		{
+			"sections_id": "101",
+			"sections_pass": 372,
+			"overallAvg": 73.4
+		},
+		{
+			"sections_id": "111",
+			"sections_pass": 435,
+			"overallAvg": 74.73
+		},
+		{
+			"sections_id": "430",
+			"sections_pass": 39,
+			"overallAvg": 77.36
+		},
+		{
+			"sections_id": "430",
+			"sections_pass": 21,
+			"overallAvg": 82.95
+		},
+		{
+			"sections_id": "530",
+			"sections_pass": 15,
+			"overallAvg": 85.6
+		},
+		{
+			"sections_id": "530",
+			"sections_pass": 14,
+			"overallAvg": 85.14
+		},
+		{
+			"sections_id": "530",
+			"sections_pass": 11,
+			"overallAvg": 79.64
+		},
+		{
+			"sections_id": "530",
+			"sections_pass": 9,
+			"overallAvg": 85.56
+		},
+		{
+			"sections_id": "270",
+			"sections_pass": 182,
+			"overallAvg": 68.69
+		},
+		{
+			"sections_id": "370",
+			"sections_pass": 28,
+			"overallAvg": 74.04
+		},
+		{
+			"sections_id": "100",
+			"sections_pass": 510,
+			"overallAvg": 79.45
+		},
+		{
+			"sections_id": "100",
+			"sections_pass": 553,
+			"overallAvg": 78.54
+		},
+		{
+			"sections_id": "100",
+			"sections_pass": 449,
+			"overallAvg": 80.04
+		},
+		{
+			"sections_id": "100",
+			"sections_pass": 383,
+			"overallAvg": 76.99
+		},
+		{
+			"sections_id": "102",
+			"sections_pass": 91,
+			"overallAvg": 69.84
+		},
+		{
+			"sections_id": "100",
+			"sections_pass": 223,
+			"overallAvg": 75.16
+		},
+		{
+			"sections_id": "100",
+			"sections_pass": 458,
+			"overallAvg": 70.12
+		},
+		{
+			"sections_id": "302",
+			"sections_pass": 166,
+			"overallAvg": 67.66
+		},
+		{
+			"sections_id": "302",
+			"sections_pass": 273,
+			"overallAvg": 69.97
+		},
+		{
+			"sections_id": "310",
+			"sections_pass": 54,
+			"overallAvg": 76.19
+		},
+		{
+			"sections_id": "250",
+			"sections_pass": 56,
+			"overallAvg": 71.14
+		},
+		{
+			"sections_id": "300",
+			"sections_pass": 39,
+			"overallAvg": 73.44
+		},
+		{
+			"sections_id": "454",
+			"sections_pass": 21,
+			"overallAvg": 60.04
+		},
+		{
+			"sections_id": "501",
+			"sections_pass": 29,
+			"overallAvg": 87.03
+		},
+		{
+			"sections_id": "501",
+			"sections_pass": 6,
+			"overallAvg": 89.08
+		},
+		{
+			"sections_id": "501",
+			"sections_pass": 5,
+			"overallAvg": 89.4
+		},
+		{
+			"sections_id": "501",
+			"sections_pass": 3,
+			"overallAvg": 82.67
+		},
+		{
+			"sections_id": "501",
+			"sections_pass": 14,
+			"overallAvg": 88.79
+		},
+		{
+			"sections_id": "501",
+			"sections_pass": 4,
+			"overallAvg": 89.5
+		},
+		{
+			"sections_id": "501",
+			"sections_pass": 17,
+			"overallAvg": 76
+		},
+		{
+			"sections_id": "501",
+			"sections_pass": 7,
+			"overallAvg": 85.14
+		},
+		{
+			"sections_id": "501",
+			"sections_pass": 18,
+			"overallAvg": 86.89
+		},
+		{
+			"sections_id": "503",
+			"sections_pass": 8,
+			"overallAvg": 85.13
+		},
+		{
+			"sections_id": "503",
+			"sections_pass": 17,
+			"overallAvg": 84.71
+		},
+		{
+			"sections_id": "503",
+			"sections_pass": 7,
+			"overallAvg": 86.22
+		},
+		{
+			"sections_id": "503",
+			"sections_pass": 23,
+			"overallAvg": 81.09
+		},
+		{
+			"sections_id": "503",
+			"sections_pass": 4,
+			"overallAvg": 84.5
+		},
+		{
+			"sections_id": "503",
+			"sections_pass": 16,
+			"overallAvg": 81.83
+		},
+		{
+			"sections_id": "503",
+			"sections_pass": 6,
+			"overallAvg": 84.83
+		},
+		{
+			"sections_id": "505",
+			"sections_pass": 19,
+			"overallAvg": 85.79
+		},
+		{
+			"sections_id": "505",
+			"sections_pass": 3,
+			"overallAvg": 77
+		},
+		{
+			"sections_id": "505",
+			"sections_pass": 5,
+			"overallAvg": 88
+		},
+		{
+			"sections_id": "505",
+			"sections_pass": 14,
+			"overallAvg": 87.14
+		},
+		{
+			"sections_id": "505",
+			"sections_pass": 4,
+			"overallAvg": 84.5
+		},
+		{
+			"sections_id": "505",
+			"sections_pass": 2,
+			"overallAvg": 91
+		},
+		{
+			"sections_id": "505",
+			"sections_pass": 13,
+			"overallAvg": 87
+		},
+		{
+			"sections_id": "507",
+			"sections_pass": 8,
+			"overallAvg": 78.63
+		},
+		{
+			"sections_id": "507",
+			"sections_pass": 25,
+			"overallAvg": 82.56
+		},
+		{
+			"sections_id": "507",
+			"sections_pass": 1,
+			"overallAvg": 87
+		},
+		{
+			"sections_id": "507",
+			"sections_pass": 15,
+			"overallAvg": 88.2
+		},
+		{
+			"sections_id": "507",
+			"sections_pass": 5,
+			"overallAvg": 85.8
+		},
+		{
+			"sections_id": "507",
+			"sections_pass": 23,
+			"overallAvg": 87.26
+		},
+		{
+			"sections_id": "509",
+			"sections_pass": 15,
+			"overallAvg": 85.73
+		},
+		{
+			"sections_id": "509",
+			"sections_pass": 9,
+			"overallAvg": 86.89
+		},
+		{
+			"sections_id": "509",
+			"sections_pass": 21,
+			"overallAvg": 86.19
+		},
+		{
+			"sections_id": "509",
+			"sections_pass": 1,
+			"overallAvg": 92.5
+		},
+		{
+			"sections_id": "509",
+			"sections_pass": 3,
+			"overallAvg": 85.67
+		},
+		{
+			"sections_id": "514",
+			"sections_pass": 16,
+			"overallAvg": 84.44
+		},
+		{
+			"sections_id": "101",
+			"sections_pass": 491,
+			"overallAvg": 70.38
+		},
+		{
+			"sections_id": "101",
+			"sections_pass": 534,
+			"overallAvg": 71.57
+		},
+		{
+			"sections_id": "400",
+			"sections_pass": 73,
+			"overallAvg": 83.49
+		},
+		{
+			"sections_id": "400",
+			"sections_pass": 91,
+			"overallAvg": 82.95
+		},
+		{
+			"sections_id": "500",
+			"sections_pass": 94,
+			"overallAvg": 80.53
+		},
+		{
+			"sections_id": "300",
+			"sections_pass": 131,
+			"overallAvg": 75.37
+		}
+	]
+}

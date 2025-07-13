@@ -1,0 +1,175 @@
+{
+	"title": "validSUMNumeral",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_audit": 5
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_id",
+				"overallAvg"
+			]
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"sections_id"
+			],
+			"APPLY": [
+				{
+					"overallAvg": {
+						"SUM": "sections_pass"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_id": "100",
+			"overallAvg": 2576
+		},
+		{
+			"sections_id": "101",
+			"overallAvg": 1608
+		},
+		{
+			"sections_id": "102",
+			"overallAvg": 1918
+		},
+		{
+			"sections_id": "111",
+			"overallAvg": 435
+		},
+		{
+			"sections_id": "200",
+			"overallAvg": 2273
+		},
+		{
+			"sections_id": "250",
+			"overallAvg": 56
+		},
+		{
+			"sections_id": "270",
+			"overallAvg": 182
+		},
+		{
+			"sections_id": "295",
+			"overallAvg": 662
+		},
+		{
+			"sections_id": "300",
+			"overallAvg": 170
+		},
+		{
+			"sections_id": "301",
+			"overallAvg": 37
+		},
+		{
+			"sections_id": "302",
+			"overallAvg": 439
+		},
+		{
+			"sections_id": "310",
+			"overallAvg": 54
+		},
+		{
+			"sections_id": "340",
+			"overallAvg": 444
+		},
+		{
+			"sections_id": "345",
+			"overallAvg": 496
+		},
+		{
+			"sections_id": "370",
+			"overallAvg": 28
+		},
+		{
+			"sections_id": "376",
+			"overallAvg": 75
+		},
+		{
+			"sections_id": "394",
+			"overallAvg": 728
+		},
+		{
+			"sections_id": "400",
+			"overallAvg": 164
+		},
+		{
+			"sections_id": "430",
+			"overallAvg": 60
+		},
+		{
+			"sections_id": "449",
+			"overallAvg": 48
+		},
+		{
+			"sections_id": "454",
+			"overallAvg": 42
+		},
+		{
+			"sections_id": "457",
+			"overallAvg": 48
+		},
+		{
+			"sections_id": "500",
+			"overallAvg": 94
+		},
+		{
+			"sections_id": "501",
+			"overallAvg": 114
+		},
+		{
+			"sections_id": "503",
+			"overallAvg": 104
+		},
+		{
+			"sections_id": "504",
+			"overallAvg": 32
+		},
+		{
+			"sections_id": "505",
+			"overallAvg": 79
+		},
+		{
+			"sections_id": "507",
+			"overallAvg": 77
+		},
+		{
+			"sections_id": "509",
+			"overallAvg": 83
+		},
+		{
+			"sections_id": "513",
+			"overallAvg": 56
+		},
+		{
+			"sections_id": "514",
+			"overallAvg": 32
+		},
+		{
+			"sections_id": "530",
+			"overallAvg": 98
+		},
+		{
+			"sections_id": "540",
+			"overallAvg": 226
+		},
+		{
+			"sections_id": "560",
+			"overallAvg": 6
+		},
+		{
+			"sections_id": "682",
+			"overallAvg": 18
+		},
+		{
+			"sections_id": "683",
+			"overallAvg": 20
+		}
+	]
+}

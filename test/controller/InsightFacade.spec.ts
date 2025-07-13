@@ -638,6 +638,7 @@ describe("InsightFacade", function () {
 			// Will *fail* if there is a problem reading ANY dataset.
 			const loadDatasetPromises: Promise<string[]>[] = [
 				facade.addDataset("sections", allSections, InsightDatasetKind.Sections),
+				facade.addDataset("rooms", rooms, InsightDatasetKind.Rooms),
 			];
 
 			try {
@@ -752,6 +753,15 @@ describe("InsightFacade", function () {
 		it("[invalid/invalidORDERNotInColumn.json] ORDER key not in COLUMN key list", checkQuery);
 		it("[invalid/invalidORDERBlank.json] ORDER key is blank", checkQuery);
 
+		// OPTIONS - ORDER DIR KEYS
+		it("[valid/validOrderDirKeys.json] Valid ORDER dir DOWN 1 key", checkQuery);
+		it("[valid/validOrderDir2Keys.json] Valid ORDER dir UP 2 key", checkQuery);
+		it("[invalid/invalidORDERNoDir.json] ORDER should be invalid missing dir key", checkQuery);
+		it("[invalid/invalidORDERNoKey.json] ORDER should be invalid missing keys key", checkQuery);
+		it("[invalid/invalidORDERWrongDir.json] ORDER DIR should be invalid", checkQuery);
+		it("[invalid/invalidORDERKeysEmpty.json] ORDER Keys should be a non-empty array", checkQuery);
+		it("[invalid/invalidOrderKeyNotInColumn.json] ORDER Keys should also be in COLUMN", checkQuery);
+
 		// idstring tests
 		it("[invalid/invalidNoDatasetQuery.json] No dataset specified in query", checkQuery);
 		it("[invalid/invalidQueryMoreThanOneDataset.json] Query more than 1 dataset", checkQuery);
@@ -775,6 +785,30 @@ describe("InsightFacade", function () {
 		it("[valid/deptValid.json] dept correct type in query", checkQuery);
 		it("[invalid/deptInvalidType.json] dept wrong type in query", checkQuery);
 
+		it("[valid/validRoomTypeString.json] room type correct type in query", checkQuery);
+		it("[invalid/invalidRoomTypeNumeral.json] room type wrong type in query", checkQuery);
+
+		it("[valid/validRoomFurnitureString.json] room furniture correct type in query", checkQuery);
+		it("[invalid/invalidRoomFurnitureString.json] room furniture wrong type in query", checkQuery);
+
+		it("[valid/validRoomHrefString.json] room href correct type in query", checkQuery);
+		it("[invalid/invalidRoomHrefNumeral.json] room href wrong type in query", checkQuery);
+
+		it("[valid/validRoomFullNameString.json] room FullName correct type in query", checkQuery);
+		it("[invalid/invalidRoomFullNameNumeral.json] room FullName wrong type in query", checkQuery);
+
+		it("[valid/validRoomShortNameString.json] room short name correct type in query", checkQuery);
+		it("[invalid/invalidRoomShortNameNumeral.json] room short name wrong type in query", checkQuery);
+
+		it("[valid/validRoomNumberString.json] room number correct type in query", checkQuery);
+		it("[invalid/invalidRoomNumberNumeral.json] room number wrong type in query", checkQuery);
+
+		it("[valid/validRoomNameString.json] room name correct type in query", checkQuery);
+		it("[invalid/invalidRoomNameNumeral.json] room name wrong type in query", checkQuery);
+
+		it("[valid/validRoomAddressString.json] room address correct type in query", checkQuery);
+		it("[invalid/invalidRoomAddressNumeral.json] room address wrong type in query", checkQuery);
+
 		// Query Key Types - Numbers
 		it("[valid/yearValid.json] year correct type in query", checkQuery);
 		it("[valid/yearValid2.json] year 2 correct type in query", checkQuery);
@@ -794,7 +828,52 @@ describe("InsightFacade", function () {
 		it("[valid/auditValid.json] audit correct type in query", checkQuery);
 		it("[invalid/auditInvalid.json] audit wrong type in query", checkQuery);
 
+		it("[valid/validLatNumeral.json] lat correct type in query", checkQuery);
+		it("[invalid/invalidLatString.json] lat wrong type in query", checkQuery);
+
+		it("[valid/validLonNumeral.json] lon correct type in query", checkQuery);
+		it("[invalid/invalidLonString.json] lon wrong type in query", checkQuery);
+
+		it("[valid/validSeatsNumeral.json] seats correct type in query", checkQuery);
+		it("[invalid/invalidSeatsString.json] seats wrong type in query", checkQuery);
+
 		// Complex Query
 		it("[valid/validComplexQueryThreeDeep.json] include AND OR NOT LT GT IS", checkQuery);
+
+		// TRANSFORMATIONS
+		it("[valid/validTransformation.json] Transformation should be valid", checkQuery);
+		it("[valid/validTransformationNotInColumn.json] Transformation should be valid", checkQuery);
+		it("[valid/validTransformation1Group2Apply.json] Transformation should be valid", checkQuery);
+		it("[valid/validTransformation2Group1Apply.json] Transformation should be valid", checkQuery);
+		it("[valid/validTransformationApplyEmpty.json] Transformation should be valid", checkQuery);
+		it("[invalid/invalidNoTransformation.json] should throw excess keys in query", checkQuery);
+		it("[invalid/invalidTransformationNoGroup.json] should throw TRANSFORMATION missing GROUP", checkQuery);
+		it("[invalid/invalidTransformationNoApply.json] should throw TRANSFORMATION missing APPLY", checkQuery);
+		it("[invalid/invalidTransformationEmptyGroup.json] should throw GROUP must be a non-empty array", checkQuery);
+		it("[invalid/invalidTransformationBadApplyKey.json] should throw Invalid key overallAvg in COLUMNS", checkQuery);
+		it("[invalid/invalidTransformationBadApplyOperator.json] should throw Invalid transformation operator", checkQuery);
+		it("[invalid/invalidTransformationBadApplyTargetKey.json] should throw Invalid apply rule target key", checkQuery);
+		it("[invalid/invalidTransformationApplyNoKey.json] should throw should only have 1 key, has 0", checkQuery);
+		it("[invalid/invalidTransformationDupApplyKey.json] should throw Duplicate APPLY key overallAvg", checkQuery);
+		it(
+			"[invalid/invalidTransformationColumnKeyNotUsed.json] should throw Keys in COLUMNS must be in GROUP or APPLY when TRANSFORMATIONS is present",
+			checkQuery
+		);
+
+		// Aggregation
+		it("[valid/validAVG.json] GROUP AVG numeral should be valid", checkQuery);
+		it("[invalid/invalidAVGString.json] GROUP AVG string should be invalid", checkQuery);
+
+		it("[valid/validMAXNumeral.json] GROUP MAX numeral should be valid", checkQuery);
+		it("[invalid/invalidMAXString.json] GROUP MAX string should be invalid", checkQuery);
+
+		it("[valid/validMINNumeral.json] GROUP MIN numeral should be valid", checkQuery);
+		it("[invalid/invalidMINString.json] GROUP MIN string should be invalid", checkQuery);
+
+		it("[valid/validSUMNumeral.json] GROUP SUM numeral should be valid", checkQuery);
+		it("[invalid/invalidSUMString.json] GROUP SUM string should be invalid", checkQuery);
+
+		it("[valid/validCOUNTNumeral.json] GROUP COUNT numeral should be valid", checkQuery);
+		it("[valid/validCOUNTString.json] GROUP COUNT string should be valid", checkQuery);
 	});
 });
