@@ -632,6 +632,7 @@ describe("InsightFacade", function () {
 		}
 
 		before(async function () {
+			await clearDisk();
 			facade = new InsightFacade();
 
 			// Add the datasets to InsightFacade once.
