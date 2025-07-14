@@ -627,18 +627,7 @@ describe("InsightFacade", function () {
 				expect.fail(`performQuery resolved when it should have rejected with ${expected}`);
 			}
 
-			let hasOrder = false;
-			if (typeof input === "object" && input !== null && "OPTIONS" in input) {
-				hasOrder = (input as any).OPTIONS?.ORDER !== undefined;
-			}
-
-			if (hasOrder) {
-				// check value equality - order matters
-				expect(result).to.have.deep.equal(expected);
-			} else {
-				// check value equality - order matters
-				expect(result).to.have.deep.members(expected);
-			}
+			expect(result).to.have.deep.equal(expected);
 		}
 
 		before(async function () {
