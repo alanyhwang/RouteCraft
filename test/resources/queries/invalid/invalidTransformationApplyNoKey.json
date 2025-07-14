@@ -1,0 +1,26 @@
+{
+	"title": "invalidTransformationApplyNoKey",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_audit": 5
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_id",
+				"overallAvg"
+			]
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"sections_id"
+			],
+			"APPLY": [
+				{}
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

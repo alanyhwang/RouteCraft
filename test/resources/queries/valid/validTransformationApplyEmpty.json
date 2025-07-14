@@ -1,0 +1,132 @@
+{
+	"title": "validTransformationApplyEmpty",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_audit": 5
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_id"
+			]
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"sections_id"
+			],
+			"APPLY": []
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_id": "100"
+		},
+		{
+			"sections_id": "101"
+		},
+		{
+			"sections_id": "102"
+		},
+		{
+			"sections_id": "111"
+		},
+		{
+			"sections_id": "200"
+		},
+		{
+			"sections_id": "250"
+		},
+		{
+			"sections_id": "270"
+		},
+		{
+			"sections_id": "295"
+		},
+		{
+			"sections_id": "300"
+		},
+		{
+			"sections_id": "301"
+		},
+		{
+			"sections_id": "302"
+		},
+		{
+			"sections_id": "310"
+		},
+		{
+			"sections_id": "340"
+		},
+		{
+			"sections_id": "345"
+		},
+		{
+			"sections_id": "370"
+		},
+		{
+			"sections_id": "376"
+		},
+		{
+			"sections_id": "394"
+		},
+		{
+			"sections_id": "400"
+		},
+		{
+			"sections_id": "430"
+		},
+		{
+			"sections_id": "449"
+		},
+		{
+			"sections_id": "454"
+		},
+		{
+			"sections_id": "457"
+		},
+		{
+			"sections_id": "500"
+		},
+		{
+			"sections_id": "501"
+		},
+		{
+			"sections_id": "503"
+		},
+		{
+			"sections_id": "504"
+		},
+		{
+			"sections_id": "505"
+		},
+		{
+			"sections_id": "507"
+		},
+		{
+			"sections_id": "509"
+		},
+		{
+			"sections_id": "513"
+		},
+		{
+			"sections_id": "514"
+		},
+		{
+			"sections_id": "530"
+		},
+		{
+			"sections_id": "540"
+		},
+		{
+			"sections_id": "560"
+		},
+		{
+			"sections_id": "682"
+		},
+		{
+			"sections_id": "683"
+		}
+	]
+}

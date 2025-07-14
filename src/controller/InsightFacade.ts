@@ -121,11 +121,7 @@ export default class InsightFacade implements IInsightFacade {
 
 		const queryEngine = new QueryEngine(this.datasets);
 
-		const { where, options } = queryEngine.checkQueryValid(query);
-		queryEngine.handleOptions(options);
-		queryEngine.handleWhere(where);
-
-		return queryEngine.getInsightResult();
+		return queryEngine.performQuery(query);
 	}
 
 	// check for no underscores and checks that if remove whitespaces from ends, length is > 0 (ie at least one char not whitespace)
