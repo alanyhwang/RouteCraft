@@ -1,5 +1,5 @@
 {
-	"title": "invalidOrderNoKey",
+	"title": "invalidORDERWrongDir",
 	"input": {
 		"WHERE": {
 			"GT": {
@@ -12,9 +12,8 @@
 				"sections_avg"
 			],
 			"ORDER": {
-				"dir": "UP",
-				"": [
-					"sections_dept",
+				"dir": "rat",
+				"keys": [
 					"sections_avg"
 				]
 			}

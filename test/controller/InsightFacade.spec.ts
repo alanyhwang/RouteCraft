@@ -756,10 +756,10 @@ describe("InsightFacade", function () {
 		// OPTIONS - ORDER DIR KEYS
 		it("[valid/validOrderDirKeys.json] Valid ORDER dir DOWN 1 key", checkQuery);
 		it("[valid/validOrderDir2Keys.json] Valid ORDER dir UP 2 key", checkQuery);
-		// it("[invalid/invalidORDERNoDir.json] ORDER should be invalid missing dir key", checkQuery);
-		// it("[invalid/invalidORDERNoKey.json] ORDER should be invalid missing keys key", checkQuery);
-		// it("[invalid/invalidORDERWrongDir.json] ORDER DIR should be invalid", checkQuery);
-		// it("[invalid/invalidORDERKeysEmpty.json] ORDER Keys should be a non-empty array", checkQuery);
+		it("[invalid/invalidORDERNoDir.json] ORDER should be invalid missing dir key", checkQuery);
+		it("[invalid/invalidORDERNoKey.json] ORDER should be invalid missing keys key", checkQuery);
+		it("[invalid/invalidORDERWrongDir.json] ORDER DIR should be invalid", checkQuery);
+		it("[invalid/invalidORDERKeysEmpty.json] ORDER Keys should be a non-empty array", checkQuery);
 		it("[invalid/invalidOrderKeyNotInColumn.json] ORDER Keys should also be in COLUMN", checkQuery);
 
 		// idstring tests
