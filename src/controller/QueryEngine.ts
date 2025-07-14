@@ -2,34 +2,28 @@ import { InsightError, InsightResult } from "./IInsightFacade";
 import { Section } from "./SectionDataProcessor";
 import { DatasetWrapper } from "./DataProcessor";
 import { QueryValidator } from "./QueryValidator";
-import { LOGICCOMPARISON, MCOMPARISON, NEGATION, SCOMPARISON } from "../utils/QueryConstants";
+import { LOGICCOMPARISON, MCOMPARISON, NEGATION, SCOMPARISON } from "../constants/QueryConstants";
 
 export class QueryEngine {
-	private queryDatasetName: string;
-	private queryColumns: Set<string>;
-	private hasOrder: boolean;
-	private queryOrder: string;
-	private datasets: Map<string, DatasetWrapper>;
-	private queryDataset: Section[];
-	private passedInsightResult: InsightResult[];
+	private queryDatasetName = "";
+	private queryColumns = new Set<string>();
+	private hasOrder = false;
+	private queryOrder: string[] = [];
+	private orderDirection = "";
+	private queryDataset: Section[] = [];
+	private passedInsightResult: InsightResult[] = [];
 	private queryValidator: QueryValidator;
 
-	constructor(datasets: Map<string, DatasetWrapper>) {
-		this.queryDatasetName = "";
-		this.queryColumns = new Set();
-		this.hasOrder = false;
-		this.queryOrder = "";
-		this.datasets = datasets;
-		this.queryDataset = [];
-		this.passedInsightResult = [];
+	constructor(private datasets: Map<string, DatasetWrapper>) {
 		this.queryValidator = new QueryValidator(this.datasets);
 	}
 
-	public makeQuery(query: unknown): void {
+	public performQuery(query: unknown): InsightResult[] {
 		const queryObject = query as Record<string, unknown>;
 		this.queryValidator.validateFirstLevel(queryObject);
 		this.handleOptions(queryObject.OPTIONS);
 		this.handleWhere(queryObject.WHERE);
+		return this.getInsightResult();
 	}
 
 	private handleOptions(options: any): void {
@@ -74,7 +68,25 @@ export class QueryEngine {
 
 	private handleOrder(order: any): void {
 		this.queryValidator.validateOrder(this.queryColumns, order);
-		this.queryOrder = order;
+		if (typeof order === "string") {
+			this.queryOrder.push(order);
+		}
+		if (typeof order === "object") {
+			const orderObject = order as Record<string, unknown>;
+			this.queryValidator.validateOrderObject(order);
+			this.handleOrderDir(orderObject.dir);
+			this.handleOrderKeys(orderObject.keys);
+		}
+	}
+
+	private handleOrderDir(dir: any): void {
+		this.queryValidator.validateOrderDir(dir);
+		this.orderDirection = dir;
+	}
+
+	private handleOrderKeys(keys: any): void {
+		this.queryValidator.validateOrderKeys(this.queryColumns, keys);
+		this.queryOrder = keys;
 	}
 
 	private handleWhere(where: any): void {
@@ -182,15 +194,27 @@ export class QueryEngine {
 	}
 
 	private orderInsightResult(): void {
-		this.passedInsightResult.sort((a, b) => {
-			const aVal = a[this.queryOrder] as number | string;
-			const bVal = b[this.queryOrder] as number | string;
+		const direction = this.orderDirection === "DOWN" ? -1 : 1;
 
-			if (typeof aVal === "number" && typeof bVal === "number") {
-				return aVal - bVal;
-			} else {
-				return String(aVal).localeCompare(String(bVal));
+		this.passedInsightResult.sort((a, b) => {
+			for (const key of this.queryOrder) {
+				const aVal = a[key];
+				const bVal = b[key];
+
+				const aIsMissing = aVal === undefined || aVal === null;
+				const bIsMissing = bVal === undefined || bVal === null;
+
+				if (aIsMissing && bIsMissing) continue;
+				if (aIsMissing) return 1 * direction; // null/undefined goes last in UP, first in DOWN
+				if (bIsMissing) return -1 * direction;
+
+				if (typeof aVal === typeof bVal) {
+					if (aVal < bVal) return -1 * direction;
+					if (aVal > bVal) return 1 * direction;
+					// else equal, check next key
+				}
 			}
+			return 0;
 		});
 	}
 

@@ -1,6 +1,6 @@
 import { InsightError, ResultTooLargeError } from "./IInsightFacade";
 import { DatasetWrapper } from "./DataProcessor";
-import { MAXRESULT, MFIELD, SFIELD } from "../utils/QueryConstants";
+import { DIRECTION, MAXRESULT, MFIELD, SFIELD } from "../constants/QueryConstants";
 
 export class QueryValidator {
 	private datasets: Map<string, DatasetWrapper>;
@@ -65,11 +65,41 @@ export class QueryValidator {
 	}
 
 	public validateOrder(queryColumns: Set<string>, order: any): void {
-		if (!(typeof order === "string")) {
-			throw new InsightError("order has to be a string");
+		if (typeof order !== "string" && typeof order !== "object") {
+			throw new InsightError("order has to be a string or object");
 		}
-		if (!queryColumns.has(order)) {
+		if (typeof order === "string" && !queryColumns.has(order)) {
 			throw new InsightError("ORDER key must be in COLUMNS");
+		}
+	}
+
+	public validateOrderObject(order: any): void {
+		if (!("dir" in order)) {
+			throw new InsightError("ORDER is missing dir key");
+		}
+		if (!("keys" in order)) {
+			throw new InsightError("ORDER is missing keys key");
+		}
+	}
+
+	public validateOrderDir(dir: any): void {
+		if (typeof dir !== "string") {
+			throw new InsightError("dir should be a string");
+		}
+		if (!DIRECTION.includes(dir)) {
+			throw new InsightError("dir is not a valid direction");
+		}
+	}
+
+	public validateOrderKeys(queryColumns: Set<string>, keys: any): void {
+		if (!Array.isArray(keys) || !keys.every((c) => typeof c === "string")) {
+			throw new InsightError("ORDER Keys must be an array of strings");
+		}
+		this.validateArrayNonEmpty("keys", keys);
+		for (const key of keys) {
+			if (!queryColumns.has(key)) {
+				throw new InsightError("ORDER Keys should also be in COLUMN");
+			}
 		}
 	}
 

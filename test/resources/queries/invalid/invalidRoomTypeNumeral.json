@@ -1,0 +1,27 @@
+{
+	"title": "invalidRoomTypeNumeral",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"rooms_type": 1
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_fullname",
+				"rooms_shortname",
+				"rooms_number",
+				"rooms_name",
+				"rooms_address",
+				"rooms_lat",
+				"rooms_lon",
+				"rooms_seats",
+				"rooms_type",
+				"rooms_furniture",
+				"rooms_href"
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}
