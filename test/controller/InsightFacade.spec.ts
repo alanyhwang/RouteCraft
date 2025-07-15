@@ -848,6 +848,8 @@ describe("InsightFacade", function () {
 
 		// Complex Query
 		it("[valid/validComplexQueryThreeDeep.json] include AND OR NOT LT GT IS", checkQuery);
+		it("[valid/validComplexRoomQuery.json] include all components in rooms", checkQuery);
+		it("[valid/valid4Col3Apply.json] include multiple components in rooms", checkQuery);
 
 		// TRANSFORMATIONS
 		it("[valid/validTransformation.json] Transformation should be valid", checkQuery);

@@ -32,6 +32,7 @@ export class QueryEngine {
 		this.handleOptions(queryObject.OPTIONS);
 		this.handleWhere(queryObject.WHERE);
 		this.applyTransformations();
+		this.queryValidator.validateDatasetSize(this.passedInsightResult.length);
 
 		if (this.hasOrder) {
 			this.orderInsightResult();
@@ -204,12 +205,9 @@ export class QueryEngine {
 
 	private buildPassedSections(where: any): void {
 		const matchesAll = Object.keys(where).length === 0;
-		const matchingSections = this.queryDataset.filter(
+		this.passedSections = this.queryDataset.filter(
 			(section) => matchesAll || this.sectionPassQuery(where, "Where", section)
 		);
-
-		this.queryValidator.validateDatasetSize(matchingSections.length);
-		this.passedSections = matchingSections;
 	}
 
 	private transformSection(section: Section): InsightResult {
