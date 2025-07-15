@@ -66,7 +66,7 @@ export class QueryTransformer {
 				const [, operateOnKey] = fullKey.split("_");
 
 				const value = this.performOperation(operator, operateOnKey, sections);
-				if (!value) {
+				if (value === null || value === undefined) {
 					validGroup = false;
 					break;
 				}
