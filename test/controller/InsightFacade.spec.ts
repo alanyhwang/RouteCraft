@@ -879,7 +879,9 @@ describe("InsightFacade", function () {
 		it("[invalid/invalidMAXString.json] GROUP MAX string should be invalid", checkQuery);
 
 		it("[valid/validMINNumeral.json] GROUP MIN numeral should be valid", checkQuery);
+		it("[valid/validMinWithZero.json] GROUP MIN numeral should be valid", checkQuery);
 		it("[invalid/invalidMINString.json] GROUP MIN string should be invalid", checkQuery);
+		it("[invalid/invalidMinWithZero.json] GROUP MIN data too large", checkQuery);
 
 		it("[valid/validSUMNumeral.json] GROUP SUM numeral should be valid", checkQuery);
 		it("[invalid/invalidSUMString.json] GROUP SUM string should be invalid", checkQuery);
