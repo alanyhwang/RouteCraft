@@ -627,7 +627,16 @@ describe("InsightFacade", function () {
 				expect.fail(`performQuery resolved when it should have rejected with ${expected}`);
 			}
 
-			expect(result).to.have.deep.equal(expected);
+			let hasOrder = false;
+			if (typeof input === "object" && input !== null && "OPTIONS" in input) {
+				hasOrder = (input as any).OPTIONS?.ORDER !== undefined;
+			}
+
+			if (hasOrder) {
+				expect(result).to.have.deep.equal(expected);
+			} else {
+				expect(result).to.have.deep.members(expected);
+			}
 		}
 
 		before(async function () {
@@ -875,5 +884,9 @@ describe("InsightFacade", function () {
 
 		it("[valid/validCOUNTNumeral.json] GROUP COUNT numeral should be valid", checkQuery);
 		it("[valid/validCOUNTString.json] GROUP COUNT string should be valid", checkQuery);
+
+		// multiple datasets
+		it("[invalid/invalid2DatasetsInQuery.json] Cannot query more than one dataset", checkQuery);
+		it("[invalid/invalid2DatasetsInApplyMaxQuery.json] Cannot query more than one dataset in APPLY", checkQuery);
 	});
 });
