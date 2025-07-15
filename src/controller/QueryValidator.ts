@@ -1,6 +1,7 @@
 import { InsightError, ResultTooLargeError } from "./IInsightFacade";
 import { DatasetWrapper } from "./DataProcessor";
-import { DIRECTION, MAXRESULT, MFIELD, SFIELD } from "../constants/QueryConstants";
+import { APPLYTOKENS, DIRECTION, MAXRESULT, MFIELD, SFIELD } from "../constants/QueryConstants";
+import { QueryTransformer } from "./QueryTrasnformer";
 
 export class QueryValidator {
 	private datasets: Map<string, DatasetWrapper>;
@@ -16,7 +17,7 @@ export class QueryValidator {
 		if (!("OPTIONS" in queryObject)) {
 			throw new InsightError("Missing OPTIONS");
 		}
-		if (Object.keys(queryObject).length > 2) {
+		if (!("TRANSFORMATIONS" in queryObject) && Object.keys(queryObject).length > 2) {
 			throw new InsightError("Excess keys in query");
 		}
 	}
@@ -33,15 +34,15 @@ export class QueryValidator {
 		}
 	}
 
-	public validateColumns(columns: unknown): void {
-		if (!Array.isArray(columns) || !columns.every((c) => typeof c === "string")) {
-			throw new InsightError("COLUMNS must be an array of strings");
+	public validateStringArray(name: string, object: unknown): void {
+		this.validateArrayNonEmpty(name, object);
+		if (!Array.isArray(object) || !object.every((c) => typeof c === "string")) {
+			throw new InsightError(`${name} must be an array of strings`);
 		}
-		this.validateArrayNonEmpty("COLUMNS", columns);
 	}
 
-	public validateArrayNonEmpty(name: string, array: any): void {
-		if (!Array.isArray(array) || array.length === 0) {
+	public validateArrayNonEmpty(name: string, object: unknown): void {
+		if (!Array.isArray(object) || object.length === 0) {
 			throw new InsightError(`${name} must be a non-empty array`);
 		}
 	}
@@ -58,9 +59,9 @@ export class QueryValidator {
 		}
 	}
 
-	public validateColumnKeyField(keyField: string): void {
+	public validateKeyField(name: string, keyField: string): void {
 		if (!MFIELD.includes(keyField) && !SFIELD.includes(keyField)) {
-			throw new InsightError(`invalid key suffix '${keyField}' in COLUMNS`);
+			throw new InsightError(`invalid key '${keyField}' in '${name}'`);
 		}
 	}
 
@@ -171,6 +172,81 @@ export class QueryValidator {
 			throw new ResultTooLargeError(
 				"The result is too big. Only queries with a maximum of 5000 results are supported. "
 			);
+		}
+	}
+
+	public validateTransformation(transformation: Record<string, unknown>): void {
+		if (!("GROUP" in transformation)) {
+			throw new InsightError("TRANSFORMATION is missing GROUP key");
+		}
+		if (!("APPLY" in transformation)) {
+			throw new InsightError("TRANSFORMATION is missing APPLY key");
+		}
+	}
+
+	public validateApply(apply: any): void {
+		if (!Array.isArray(apply)) {
+			throw new InsightError("APPLY must be an array");
+		}
+	}
+
+	public validateApplyItem(queryDatasetName: string, item: any): void {
+		if (typeof item !== "object" || item === null || Array.isArray(item)) {
+			throw new InsightError("Each item in APPLY must be a non-null object");
+		}
+
+		const keys = Object.keys(item);
+		if (keys.length !== 1) {
+			throw new InsightError("Each object in APPLY must have exactly one key");
+		}
+
+		if (!/^[^_]+$/.test(keys[0])) {
+			throw new InsightError(`applyKey cannot contain underscore`);
+		}
+
+		const applyRuleValue = item[keys[0]];
+		if (typeof applyRuleValue !== "object" || applyRuleValue === null || Array.isArray(applyRuleValue)) {
+			throw new InsightError("The value of each APPLY key must be a non-null object");
+		}
+
+		const innerKeys = Object.keys(applyRuleValue);
+		if (innerKeys.length !== 1) {
+			throw new InsightError("Each APPLY rule must specify exactly one aggregation operator");
+		}
+		if (!APPLYTOKENS.includes(innerKeys[0])) {
+			throw new InsightError("Aggregation operator does not exist");
+		}
+
+		const queryString = applyRuleValue[innerKeys[0]];
+		if (typeof queryString !== "string") {
+			throw new InsightError("Aggregation field must be a string");
+		}
+		const [idString, keyField] = queryString.split("_");
+		this.validateIdString(queryDatasetName, idString);
+		this.validateKeyField("APPLY", keyField);
+	}
+
+	public columnInTransformer(queryTransformer: QueryTransformer, column: string, idString: string): void {
+		const transformerGroups = queryTransformer.getGroups();
+		const transformerApplyKeys = queryTransformer.getApplyKeys();
+		const transformerDatasetName = queryTransformer.getQueryDatasetName();
+		if (!transformerGroups.has(column) && !transformerApplyKeys.has(column)) {
+			throw new InsightError(`Invalid key ${column} in COLUMNS`);
+		}
+		if (transformerDatasetName !== idString && column.includes("_")) {
+			throw new InsightError(`Cannot query more than one dataset`);
+		}
+	}
+
+	public validateOperationKey(operator: string, key: any): void {
+		if (operator === "COUNT") {
+			if (!MFIELD.includes(key) && !SFIELD.includes(key)) {
+				throw new InsightError(`${operator} operator does not have valid key`);
+			}
+		} else {
+			if (!MFIELD.includes(key)) {
+				throw new InsightError(`${operator} operator cannot have keys that are strings`);
+			}
 		}
 	}
 }

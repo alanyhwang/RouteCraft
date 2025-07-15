@@ -3,6 +3,7 @@ import { Section } from "./SectionDataProcessor";
 import { DatasetWrapper } from "./DataProcessor";
 import { QueryValidator } from "./QueryValidator";
 import { LOGICCOMPARISON, MCOMPARISON, NEGATION, SCOMPARISON } from "../constants/QueryConstants";
+import { QueryTransformer } from "./QueryTrasnformer";
 
 export class QueryEngine {
 	private queryDatasetName = "";
@@ -11,19 +12,46 @@ export class QueryEngine {
 	private queryOrder: string[] = [];
 	private orderDirection = "";
 	private queryDataset: Section[] = [];
+	private passedSections: Section[] = [];
 	private passedInsightResult: InsightResult[] = [];
 	private queryValidator: QueryValidator;
+	private queryTransformer: QueryTransformer;
 
 	constructor(private datasets: Map<string, DatasetWrapper>) {
 		this.queryValidator = new QueryValidator(this.datasets);
+		this.queryTransformer = new QueryTransformer(this.queryValidator);
 	}
 
 	public performQuery(query: unknown): InsightResult[] {
 		const queryObject = query as Record<string, unknown>;
 		this.queryValidator.validateFirstLevel(queryObject);
+
+		if ("TRANSFORMATIONS" in queryObject) {
+			this.handleTransformations(queryObject.TRANSFORMATIONS);
+		}
 		this.handleOptions(queryObject.OPTIONS);
 		this.handleWhere(queryObject.WHERE);
+		this.applyTransformations();
+		this.queryValidator.validateDatasetSize(this.passedInsightResult.length);
+
+		if (this.hasOrder) {
+			this.orderInsightResult();
+		}
+
 		return this.getInsightResult();
+	}
+
+	private applyTransformations(): void {
+		if (this.queryTransformer.hasTransformer()) {
+			this.passedInsightResult = this.queryTransformer.transformSections(this.passedSections);
+		} else {
+			this.passedInsightResult = this.passedSections.map((section) => this.transformSection(section));
+		}
+		this.queryTransformer.transformToQueriedColumns(this.passedInsightResult, this.queryColumns);
+	}
+
+	private handleTransformations(transformations: any): void {
+		this.queryTransformer.initializeTransformer(transformations);
 	}
 
 	private handleOptions(options: any): void {
@@ -49,13 +77,20 @@ export class QueryEngine {
 	}
 
 	private handleColumns(columns: any): void {
-		this.queryValidator.validateColumns(columns);
+		this.queryValidator.validateStringArray("COLUMNS", columns);
 
 		columns.forEach((column: string) => {
 			const [idString, keyField] = column.split("_");
-			this.queryValidator.validateIdString(this.queryDatasetName, idString);
-			this.updateQueryDatasetName(idString);
-			this.queryValidator.validateColumnKeyField(keyField);
+			if (this.queryTransformer.hasTransformer()) {
+				this.queryValidator.columnInTransformer(this.queryTransformer, column, idString);
+			} else {
+				this.queryValidator.validateIdString(this.queryDatasetName, idString);
+			}
+
+			if (column.includes("_")) {
+				this.updateQueryDatasetName(idString);
+				this.queryValidator.validateKeyField("COLUMNS", keyField);
+			}
 			this.queryColumns.add(column);
 		});
 	}
@@ -91,11 +126,7 @@ export class QueryEngine {
 
 	private handleWhere(where: any): void {
 		this.queryValidator.validateIsObject("WHERE", where);
-		this.buildInsightResult(where);
-
-		if (this.hasOrder) {
-			this.orderInsightResult();
-		}
+		this.buildPassedSections(where);
 	}
 
 	private sectionPassQuery(filter: any, parentName: string, section: Section): boolean {
@@ -172,14 +203,11 @@ export class QueryEngine {
 		}
 	}
 
-	private buildInsightResult(where: any): void {
+	private buildPassedSections(where: any): void {
 		const matchesAll = Object.keys(where).length === 0;
-		const matchingSections = this.queryDataset.filter(
+		this.passedSections = this.queryDataset.filter(
 			(section) => matchesAll || this.sectionPassQuery(where, "Where", section)
 		);
-
-		this.queryValidator.validateDatasetSize(matchingSections.length);
-		this.passedInsightResult = matchingSections.map((section) => this.transformSection(section));
 	}
 
 	private transformSection(section: Section): InsightResult {
