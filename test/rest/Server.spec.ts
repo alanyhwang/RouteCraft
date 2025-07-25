@@ -6,7 +6,7 @@ import Server from "../../src/rest/Server";
 import { ARCHIVES_DIR } from "../../config";
 import * as fs from "fs-extra";
 import path from "node:path";
-import { clearDisk } from "../TestUtil";
+import { clearDisk, loadTestQuery } from "../TestUtil";
 
 describe("Facade C3", function () {
 	let server: Server;
@@ -82,7 +82,7 @@ describe("Facade C3", function () {
 		});
 
 		it("should upload 1 rooms dataset", async function () {
-			const ENDPOINT_URL = "/dataset/2/rooms";
+			const ENDPOINT_URL = "/dataset/1/rooms";
 
 			try {
 				const res = await request(SERVER_URL)
@@ -136,13 +136,46 @@ describe("Facade C3", function () {
 			}
 		});
 
-		it("shouldn't add one dataset with ID that already exists", async function () {
-			const ENDPOINT_URL = "/dataset/1/rooms";
+		it("should return 400 for invalid id", async function () {
+			const ENDPOINT_URL = "/dataset/inval_id/sections";
 
 			try {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL)
 					.send(sectionsZipFile)
+					.set("Content-Type", "application/x-zip-compressed");
+
+				expect(res.status).to.equal(StatusCodes.BAD_REQUEST);
+				expect(res.body).to.have.property("error");
+				expect(res.body.error).to.be.a("string");
+			} catch (err) {
+				Log.error(err);
+				expect.fail();
+			}
+		});
+
+		it("shouldn't add one dataset with ID that already exists", async function () {
+			const ENDPOINT_URL_1 = "/dataset/1/sections";
+
+			try {
+				const res = await request(SERVER_URL)
+					.put(ENDPOINT_URL_1)
+					.send(sectionsZipFile)
+					.set("Content-Type", "application/x-zip-compressed");
+
+				expect(res.status).to.be.equal(StatusCodes.OK);
+				expect(res.body).to.have.property("result");
+				expect(res.body.result).to.be.an("array");
+			} catch (err) {
+				Log.error(err);
+				expect.fail();
+			}
+			const ENDPOINT_URL_2 = "/dataset/1/rooms";
+
+			try {
+				const res = await request(SERVER_URL)
+					.put(ENDPOINT_URL_2)
+					.send(roomsZipFile)
 					.set("Content-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.equal(StatusCodes.BAD_REQUEST);
@@ -196,21 +229,49 @@ describe("Facade C3", function () {
 	});
 
 	describe("POST /query", function () {
-		// it("should run valid query and return results", async function () {
-		// 	const validQuery = simple.json
-		//
-		// 	try {
-		// 		const res = await request(SERVER_URL).post("/query").send(validQuery).set("Content-Type", "application/json");
-		//
-		// 		expect(res.status).to.equal(StatusCodes.OK);
-		// 		expect(res.body).to.have.property("result");
-		// 		expect(res.body.result).to.be.an("array");
-		// 		// Optional: check some result properties
-		// 	} catch (err) {
-		// 		Log.error(err);
-		// 		expect.fail();
-		// 	}
-		// });
+		const QUERY_ENDPOINT = "/query";
+
+		it("should run valid query and return results", async function () {
+			const ENDPOINT_URL = "/dataset/sections/sections";
+
+			try {
+				const res = await request(SERVER_URL)
+					.put(ENDPOINT_URL)
+					.send(sectionsZipFile)
+					.set("Content-Type", "application/x-zip-compressed");
+
+				expect(res.status).to.be.equal(StatusCodes.OK);
+				expect(res.body).to.have.property("result");
+				expect(res.body.result).to.be.an("array");
+			} catch (err) {
+				Log.error(err);
+				expect.fail();
+			}
+
+			const input = {
+				WHERE: {
+					GT: {
+						sections_avg: 97,
+					},
+				},
+				OPTIONS: {
+					COLUMNS: ["sections_dept", "sections_avg"],
+					ORDER: "sections_avg",
+				},
+			};
+
+			try {
+				const res = await request(SERVER_URL).post(QUERY_ENDPOINT).send(input).set("Content-Type", "application/json");
+
+				expect(res.status).to.equal(StatusCodes.OK);
+				expect(res.body).to.have.property("result");
+				expect(res.body.result).to.deep.equal("array");
+			} catch (err) {
+				Log.error(err);
+				expect.fail("Unexpected error in /query");
+				// Optionally test that it returned the correct error code
+			}
+		});
 
 		it("should return 400 for invalid query", async function () {
 			const invalidQuery = { foo: "bar" }; // definitely invalid query format
@@ -229,6 +290,22 @@ describe("Facade C3", function () {
 
 	describe("DELETE /dataset/:id", function () {
 		it("should delete existing dataset and return 200", async function () {
+			const ENDPOINT_URL = "/dataset/1/sections";
+
+			try {
+				const res = await request(SERVER_URL)
+					.put(ENDPOINT_URL)
+					.send(sectionsZipFile)
+					.set("Content-Type", "application/x-zip-compressed");
+
+				expect(res.status).to.be.equal(StatusCodes.OK);
+				expect(res.body).to.have.property("result");
+				expect(res.body.result).to.be.an("array");
+			} catch (err) {
+				Log.error(err);
+				expect.fail();
+			}
+
 			try {
 				const deleteRes = await request(SERVER_URL).delete("/dataset/1");
 
@@ -269,26 +346,6 @@ describe("Facade C3", function () {
 			}
 		});
 	});
-	//
-	// 	it("should upload 1 sections datasets", async function () {
-	// 		const SECOND_ENDPOINT_URL = "/dataset/2/sections";
-	//
-	// 		try {
-	// 			const res = await request(SERVER_URL)
-	// 				.put(SECOND_ENDPOINT_URL)
-	// 				.send(sectionsZipFile)
-	// 				.set("Content-Type", "application/x-zip-compressed");
-	//
-	// 			expect(res.status).to.be.equal(StatusCodes.OK);
-	// 			expect(res.status).to.equal(resolve200);
-	// 			expect(res.body).to.have.property("result");
-	// 			expect(res.body.result).to.be.an("array");
-	// 		} catch (err) {
-	// 			Log.error(err);
-	// 			expect.fail();
-	// 		}
-	// 	});
-	// });
 
 	// The other endpoints work similarly. You should be able to find all instructions in the supertest documentation
 });
