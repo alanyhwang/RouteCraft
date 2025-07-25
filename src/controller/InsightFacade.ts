@@ -111,6 +111,8 @@ export default class InsightFacade implements IInsightFacade {
 	}
 
 	public async performQuery(query: unknown): Promise<InsightResult[]> {
+		// await this.ensureDatasetsLoaded();
+
 		if (!this.datasetsLoaded || this.datasets.size === 0) {
 			throw new InsightError("No dataset added");
 		}

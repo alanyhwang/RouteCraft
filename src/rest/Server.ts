@@ -3,8 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { Log } from "@ubccpsc310/project-support";
 import * as http from "http";
 import cors from "cors";
-import { InsightDatasetKind, NotFoundError } from "../controller/IInsightFacade";
-// import { IInsightFacade } from "../controller/IInsightFacade";
+import { IInsightFacade, InsightDatasetKind, NotFoundError } from "../controller/IInsightFacade";
 import InsightFacade from "../controller/InsightFacade";
 import { datasetsParam, idAndKindDatasetParams, idDatasetParam, queryParam } from "../../config";
 
@@ -12,13 +11,13 @@ export default class Server {
 	private readonly port: number;
 	private express: Application;
 	private server: http.Server | undefined;
-	// private facade: IInsightFacade;
+	private facade: IInsightFacade;
 
 	constructor(port: number) {
 		Log.info(`Server::<init>( ${port} )`);
 		this.port = port;
 		this.express = express();
-		// this.facade = new InsightFacade();
+		this.facade = new InsightFacade();
 
 		this.registerMiddleware();
 		this.registerRoutes();
@@ -78,6 +77,10 @@ export default class Server {
 		});
 	}
 
+	public reInstantiateFacade(): void {
+		this.facade = new InsightFacade();
+	}
+
 	// Registers middleware to parse request before passing them to request handlers
 	private registerMiddleware(): void {
 		// JSON parser must be place before raw parser because of wildcard matching done by raw parser below
@@ -113,10 +116,10 @@ export default class Server {
 			const { id, kind } = req.params;
 			const content = req.body?.toString("base64");
 
-			const facade = new InsightFacade();
+			// const facade = new InsightFacade();
 
 			try {
-				const arr = await facade.addDataset(id, content, kind as InsightDatasetKind);
+				const arr = await this.facade.addDataset(id, content, kind as InsightDatasetKind);
 				res.status(StatusCodes.OK).json({ result: arr });
 			} catch (err) {
 				res.status(StatusCodes.BAD_REQUEST).json({ error: (err as Error).message });
@@ -128,10 +131,10 @@ export default class Server {
 		this.express.delete(idDatasetParam, async (req, res) => {
 			const { id } = req.params;
 
-			const facade = new InsightFacade();
+			// const facade = new InsightFacade();
 
 			try {
-				const arr = await facade.removeDataset(id);
+				const arr = await this.facade.removeDataset(id);
 				res.status(StatusCodes.OK).json({ result: arr });
 			} catch (err) {
 				if (err instanceof NotFoundError) {
@@ -145,9 +148,9 @@ export default class Server {
 
 	private postMethod(): void {
 		this.express.post(queryParam, async (req, res) => {
-			const facade = new InsightFacade();
+			// const facade = new InsightFacade();
 			try {
-				const arr = await facade.performQuery(req.body);
+				const arr = await this.facade.performQuery(req.body);
 				res.status(StatusCodes.OK).json({ result: arr });
 			} catch (err) {
 				res.status(StatusCodes.BAD_REQUEST).json({ error: (err as Error).message });
@@ -157,9 +160,9 @@ export default class Server {
 
 	private getMethod(): void {
 		this.express.get(datasetsParam, async (req, res) => {
-			const facade = new InsightFacade();
+			// const facade = new InsightFacade();
 			try {
-				const arr = await facade.listDatasets();
+				const arr = await this.facade.listDatasets();
 				res.status(StatusCodes.OK).json({ result: arr });
 			} catch (err) {
 				res.status(StatusCodes.BAD_REQUEST).json({ error: (err as Error).message });
