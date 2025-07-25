@@ -3,16 +3,22 @@ import { StatusCodes } from "http-status-codes";
 import { Log } from "@ubccpsc310/project-support";
 import * as http from "http";
 import cors from "cors";
+import { InsightDatasetKind, NotFoundError } from "../controller/IInsightFacade";
+import { IInsightFacade } from "../controller/IInsightFacade";
+import InsightFacade from "../controller/InsightFacade";
+import { datasetsParam, idAndKindDatasetParams, idDatasetParam, queryParam } from "../../config";
 
 export default class Server {
 	private readonly port: number;
 	private express: Application;
 	private server: http.Server | undefined;
+	private facade: IInsightFacade;
 
 	constructor(port: number) {
 		Log.info(`Server::<init>( ${port} )`);
 		this.port = port;
 		this.express = express();
+		this.facade = new InsightFacade();
 
 		this.registerMiddleware();
 		this.registerRoutes();
@@ -89,6 +95,70 @@ export default class Server {
 		this.express.get("/echo/:msg", Server.echo);
 
 		// TODO: your other endpoints should go here
+		// PUT /dataset/:id/:kind → addDataset
+		this.putMethod();
+
+		// DELETE /dataset/:id → removeDataset
+		this.deleteMethod();
+
+		// POST /query → performQuery
+		this.postMethod();
+
+		// GET /datasets → listDatasets
+		this.getMethod();
+	}
+
+	private putMethod(): void {
+		this.express.put(idAndKindDatasetParams, async (req, res) => {
+			const { id, kind } = req.params;
+			const content = req.body?.toString("base64");
+
+			try {
+				const arr = await this.facade.addDataset(id, content, kind as InsightDatasetKind);
+				res.status(StatusCodes.OK).json({ result: arr });
+			} catch (err) {
+				res.status(StatusCodes.BAD_REQUEST).json({ error: (err as Error).message });
+			}
+		});
+	}
+
+	private deleteMethod(): void {
+		this.express.delete(idDatasetParam, async (req, res) => {
+			const { id } = req.params;
+
+			try {
+				const arr = await this.facade.removeDataset(id);
+				res.status(StatusCodes.OK).json({ result: arr });
+			} catch (err) {
+				if (err instanceof NotFoundError) {
+					res.status(StatusCodes.NOT_FOUND).json({ error: (err as Error).message });
+				} else {
+					res.status(StatusCodes.BAD_REQUEST).json({ error: (err as Error).message });
+				}
+			}
+		});
+	}
+
+	private postMethod(): void {
+		this.express.post(queryParam, async (req, res) => {
+			try {
+				const arr = await this.facade.performQuery(req.body);
+				res.status(StatusCodes.OK).json({ result: arr });
+			} catch (err) {
+				res.status(StatusCodes.BAD_REQUEST).json({ error: (err as Error).message });
+			}
+		});
+	}
+
+	private getMethod(): void {
+		this.express.get(datasetsParam, async (req, res) => {
+			try {
+				const arr = await this.facade.listDatasets();
+				res.status(StatusCodes.OK).json({ result: arr });
+			} catch (err) {
+				res.status(StatusCodes.BAD_REQUEST).json({ error: (err as Error).message });
+			}
+		});
 	}
 
 	// The next two methods handle the echo service.
