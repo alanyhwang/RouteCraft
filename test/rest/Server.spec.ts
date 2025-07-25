@@ -10,8 +10,8 @@ import { clearDisk } from "../TestUtil";
 
 describe("Facade C3", function () {
 	let server: Server;
-	let sectionsZipFile: string | object | undefined;
-	let roomsZipFile: string | object | undefined;
+	let sectionsZipFile: Buffer;
+	let roomsZipFile: Buffer;
 	const PORT = 4321;
 	const SERVER_URL = `http://localhost:${PORT}`;
 
@@ -59,9 +59,9 @@ describe("Facade C3", function () {
 	});
 
 	describe("PUT /dataset/:id/:kind", function () {
-		// beforeEach(async function () {
-		// 	await clearDisk();
-		// });
+		beforeEach(async function () {
+			await clearDisk();
+		});
 
 		it("should upload 1 sections dataset", async function () {
 			const ENDPOINT_URL = "/dataset/1/sections";
