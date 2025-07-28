@@ -1,3 +1,5 @@
+// file created with the help of ChatGPT (customized and modified ChatGPT generated templates)
+
 import { expect } from "chai";
 import request from "supertest";
 import { StatusCodes } from "http-status-codes";

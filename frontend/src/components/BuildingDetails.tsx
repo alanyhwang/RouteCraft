@@ -1,5 +1,5 @@
-import type { Room } from "./Room";
-import RoomDetails from "./RoomDetails";
+import type { Room } from "./Room.tsx";
+import RoomDetails from "./RoomDetails.tsx";
 import React from "react";
 
 interface Props {

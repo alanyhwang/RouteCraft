@@ -1,3 +1,5 @@
+// file created with the help of ChatGPT (customized and modified ChatGPT generated templates)
+
 import express, { Application, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { Log } from "@ubccpsc310/project-support";
