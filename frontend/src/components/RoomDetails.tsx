@@ -1,11 +1,15 @@
 import React from "react";
 import type { Room } from "./Room.tsx";
+import { useRoomsContext } from "../context/RoomsContext.tsx";
 
 interface Props {
 	room: Room;
 }
 
 const RoomDetails: React.FC<Props> = ({ room }) => {
+	const { addToSelectedRooms, isSelectedRoom } = useRoomsContext();
+	const isAlreadyAdded = isSelectedRoom(room.rooms_name);
+
 	return (
 		<div style={{ padding: "1rem", background: "#eee", borderTop: "1px solid #ccc" }}>
 			<h5>{room.rooms_name}</h5>
@@ -18,9 +22,21 @@ const RoomDetails: React.FC<Props> = ({ room }) => {
 			<p>
 				<strong>Furniture:</strong> {room.rooms_furniture}
 			</p>
-			<a href={room.rooms_href} target="_blank" rel="noopener noreferrer">
-				Link to View More Replace with Add Button
-			</a>
+			<button
+				onClick={() => addToSelectedRooms(room)}
+				disabled={isAlreadyAdded}
+				style={{
+					marginTop: "0.5rem",
+					padding: "0.5rem 1rem",
+					cursor: isAlreadyAdded ? "not-allowed" : "pointer",
+					backgroundColor: isAlreadyAdded ? "#ccc" : "#007bff",
+					color: "white",
+					border: "none",
+					borderRadius: "4px",
+				}}
+			>
+				{isAlreadyAdded ? "Already Added" : "Add Room"}
+			</button>
 		</div>
 	);
 };

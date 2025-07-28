@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MapboxMap, { Marker, Popup } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
-import exampleRoomData from "../../data/testroomdata.json";
+import exampleRoomData from "../../data/testroomdatafull.json";
 import type { Room } from "./Room.tsx";
 import Pin from "./Pin.tsx";
 
