@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.pin {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	color: white;
+	font-size: 18px;
+	box-shadow: 0 0 0 2px white;
+	cursor: pointer;
+}
+
+.pin .material-icons {
+	font-size: 18px;
+}

@@ -1,45 +1,40 @@
-import RoomRoute from "./RoomRoute.tsx";
-import MapWithMarkers from "./MapBox.tsx";
+import RoomRoute from "./RoomRoute/RoomRoute.tsx";
+import MapWithMarkers from "./MapWithMarkers.tsx";
 import BuildingDetails from "./BuildingDetails.tsx";
 import { useState } from "react";
 import type { Room } from "./Room.tsx";
-import { RoomsProvider } from "../context/RoomsProvider.tsx";
+import { Allotment } from "allotment";
+import "allotment/dist/style.css";
 
 const Content = () => {
 	const [selectedBuilding, setSelectedBuilding] = useState<Room[] | null>(null);
 
 	return (
-		<RoomsProvider>
-			<div style={{ display: "flex", flex: 1, minHeight: 0 }}>
-				<div
-					style={{
-						width: "300px",
-						borderRight: "1px solid #ccc",
-						overflowY: "auto",
-						height: "100%",
-					}}
-				>
-					<RoomRoute />
-				</div>
-
-				<div style={{ flex: 1, position: "relative" }}>
-					<MapWithMarkers onSelectBuilding={setSelectedBuilding} />
-				</div>
-
-				{selectedBuilding && (
-					<div
-						style={{
-							width: "300px",
-							borderLeft: "1px solid #ccc",
-							overflowY: "auto",
-							height: "100%",
-						}}
-					>
-						<BuildingDetails rooms={selectedBuilding} />
+		<div style={{ height: "100vh" }}>
+			<Allotment>
+				<Allotment.Pane minSize={200} preferredSize={375} snap>
+					<div style={{ height: "100%", overflowY: "auto", borderRight: "1px solid #ccc" }}>
+						<RoomRoute onSelectBuilding={setSelectedBuilding} />
 					</div>
-				)}
-			</div>
-		</RoomsProvider>
+				</Allotment.Pane>
+
+				<Allotment.Pane minSize={0} snap={false}>
+					<div style={{ height: "100%", position: "relative" }}>
+						<MapWithMarkers onSelectBuilding={setSelectedBuilding} />
+					</div>
+				</Allotment.Pane>
+
+				<Allotment.Pane minSize={200} preferredSize={300} snap>
+					<div style={{ height: "100%", overflowY: "auto", borderLeft: "1px solid #ccc" }}>
+						{selectedBuilding ? (
+							<BuildingDetails rooms={selectedBuilding} />
+						) : (
+							<div style={{ padding: "1rem", color: "#666", textAlign: "center" }}>Select a building</div>
+						)}
+					</div>
+				</Allotment.Pane>
+			</Allotment>
+		</div>
 	);
 };
 
