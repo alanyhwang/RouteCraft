@@ -4,7 +4,7 @@ import type { Room } from "../Room";
 import SortableRoom from "./SortableRoom";
 import SelectedRouteHeader from "./SelectedRouteHeader";
 
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
 interface RoomRouteProps {
@@ -25,7 +25,7 @@ const RoomRoute: React.FC<RoomRouteProps> = ({ onSelectBuilding }) => {
 
 	const roomIds = useMemo(() => selectedRooms.map((r) => r.rooms_name), [selectedRooms]);
 
-	const handleDragEnd = (event: any) => {
+	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 		if (active.id !== over?.id) {
 			const oldIndex = selectedRooms.findIndex((r) => r.rooms_name === active.id);
