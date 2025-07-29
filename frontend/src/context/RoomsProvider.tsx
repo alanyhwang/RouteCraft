@@ -1,7 +1,6 @@
 import { type ReactNode, useEffect, useState } from "react";
 import type { Room } from "../components/room/Room.tsx";
 import { RoomsContext, type RoomsContextType } from "./RoomsContext.tsx";
-import exampleRoomData from "../../data/testroomdatafull.json";
 import { fetchRoomsApi } from "../api/insightApi.tsx";
 
 interface RoomsProviderProps {
@@ -38,10 +37,6 @@ export const RoomsProvider = ({ children }: RoomsProviderProps) => {
 		const storedSelectedRooms = localStorage.getItem("storedSelectedRooms");
 
 		if (storedSelectedRooms) setSelectedRooms(JSON.parse(storedSelectedRooms));
-	}, []);
-
-	useEffect(() => {
-		setAllRooms(exampleRoomData.result);
 	}, []);
 
 	useEffect(() => {
@@ -91,7 +86,15 @@ export const RoomsProvider = ({ children }: RoomsProviderProps) => {
 	};
 	return (
 		<RoomsContext.Provider value={value}>
-			{loading ? <div>Loading rooms...</div> : error ? <div>{error}</div> : children}
+			{loading ? (
+				<div>Loading rooms...</div>
+			) : error ? (
+				<>
+					<div>{error} Refresh the page.</div> <div>{children}</div>
+				</>
+			) : (
+				children
+			)}
 		</RoomsContext.Provider>
 	);
 };
