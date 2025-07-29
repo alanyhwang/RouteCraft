@@ -1,6 +1,6 @@
 import React from "react";
 import type { Room } from "./Room.tsx";
-import { useRoomsContext } from "../context/RoomsContext.tsx";
+import { useRoomsContext } from "../../context/RoomsContext.tsx";
 
 interface Props {
 	room: Room;

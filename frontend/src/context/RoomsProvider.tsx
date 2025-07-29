@@ -1,5 +1,5 @@
 import { type ReactNode, useEffect, useState } from "react";
-import type { Room } from "../components/Room.tsx";
+import type { Room } from "../components/room/Room.tsx";
 import { RoomsContext, type RoomsContextType } from "./RoomsContext.tsx";
 import exampleRoomData from "../../data/testroomdatafull.json";
 

@@ -1,0 +1,12 @@
+.room-directions-container {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+	--gradDark: hsl(120, 7%, 14%);
+	--gradLight: hsl(92, 34%, 33%);
+	background: linear-gradient(to bottom, var(--gradDark), var(--gradLight));
+	padding: 120px 40px 40px 40px;
+	text-align: center;
+}

@@ -1,8 +1,8 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import type { Room } from "../Room";
-import RoomDetails from "../RoomDetails";
+import type { Room } from "../room/Room.tsx";
+import RoomDetails from "../room/RoomDetails.tsx";
 
 interface SortableRoomProps {
 	room: Room;

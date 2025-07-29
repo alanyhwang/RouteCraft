@@ -14,6 +14,9 @@ function TopMenu() {
 						<Nav.Link as={Link} to="/">
 							Home
 						</Nav.Link>
+						<Nav.Link as={Link} to="/route">
+							Route
+						</Nav.Link>
 						<Nav.Link as={Link} to="/about">
 							About
 						</Nav.Link>

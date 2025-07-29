@@ -73,7 +73,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL)
 					.send(sectionsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.be.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
@@ -91,7 +91,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL)
 					.send(roomsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.be.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
@@ -109,7 +109,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL)
 					.send(sectionsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.be.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
@@ -128,7 +128,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL)
 					.send(INVALID_DATA)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.equal(StatusCodes.BAD_REQUEST);
 				expect(res.body).to.have.property("error");
@@ -146,7 +146,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL)
 					.send(sectionsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.equal(StatusCodes.BAD_REQUEST);
 				expect(res.body).to.have.property("error");
@@ -164,7 +164,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL_1)
 					.send(sectionsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.be.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
@@ -179,7 +179,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL_2)
 					.send(roomsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.equal(StatusCodes.BAD_REQUEST);
 				expect(res.body).to.have.property("error");
@@ -197,7 +197,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL)
 					.send(sectionsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.equal(StatusCodes.BAD_REQUEST);
 				expect(res.body).to.have.property("error");
@@ -253,7 +253,10 @@ describe("Facade C3", function () {
 			};
 
 			try {
-				const res = await request(SERVER_URL).post(QUERY_ENDPOINT).send(input).set("Content-Type", "application/json");
+				const res = await request(SERVER_URL)
+					.post(QUERY_ENDPOINT)
+					.send(input)
+					.set("HomeContent-Type", "application/json");
 
 				expect(res.status).to.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
@@ -290,7 +293,10 @@ describe("Facade C3", function () {
 			};
 
 			try {
-				const res = await request(SERVER_URL).post(QUERY_ENDPOINT).send(input).set("Content-Type", "application/json");
+				const res = await request(SERVER_URL)
+					.post(QUERY_ENDPOINT)
+					.send(input)
+					.set("HomeContent-Type", "application/json");
 
 				expect(res.status).to.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
@@ -334,7 +340,7 @@ describe("Facade C3", function () {
 		// 	};
 		//
 		// 	try {
-		// 		const res = await request(SERVER_URL).post(QUERY_ENDPOINT).send(input).set("Content-Type", "application/json");
+		// 		const res = await request(SERVER_URL).post(QUERY_ENDPOINT).send(input).set("HomeContent-Type", "application/json");
 		//
 		// 		expect(res.status).to.equal(StatusCodes.OK);
 		// 		expect(res.body).to.have.property("result");
@@ -371,7 +377,10 @@ describe("Facade C3", function () {
 			};
 
 			try {
-				const res = await request(SERVER_URL).post(QUERY_ENDPOINT).send(input).set("Content-Type", "application/json");
+				const res = await request(SERVER_URL)
+					.post(QUERY_ENDPOINT)
+					.send(input)
+					.set("HomeContent-Type", "application/json");
 
 				expect(res.status).to.equal(StatusCodes.BAD_REQUEST);
 				expect(res.body).to.have.property("error");
@@ -417,7 +426,10 @@ describe("Facade C3", function () {
 			};
 
 			try {
-				const res = await request(SERVER_URL).post(QUERY_ENDPOINT).send(input).set("Content-Type", "application/json");
+				const res = await request(SERVER_URL)
+					.post(QUERY_ENDPOINT)
+					.send(input)
+					.set("HomeContent-Type", "application/json");
 
 				expect(res.status).to.equal(StatusCodes.BAD_REQUEST);
 				expect(res.body).to.have.property("error");
@@ -440,7 +452,10 @@ describe("Facade C3", function () {
 			};
 
 			try {
-				const res = await request(SERVER_URL).post("/query").send(invalidQuery).set("Content-Type", "application/json");
+				const res = await request(SERVER_URL)
+					.post("/query")
+					.send(invalidQuery)
+					.set("HomeContent-Type", "application/json");
 
 				expect(res.status).to.equal(StatusCodes.BAD_REQUEST);
 				expect(res.body).to.have.property("error");
@@ -461,7 +476,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(SECTIONS_ENDPOINT_URL)
 					.send(sectionsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.be.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
@@ -475,7 +490,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ROOMS_ENDPOINT_URL)
 					.send(roomsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.be.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
@@ -504,7 +519,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL)
 					.send(sectionsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.be.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
@@ -533,7 +548,7 @@ describe("Facade C3", function () {
 				const res = await request(SERVER_URL)
 					.put(ENDPOINT_URL)
 					.send(roomsZipFile)
-					.set("Content-Type", "application/x-zip-compressed");
+					.set("HomeContent-Type", "application/x-zip-compressed");
 
 				expect(res.status).to.be.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");

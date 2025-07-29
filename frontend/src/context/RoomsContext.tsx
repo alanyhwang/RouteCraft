@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { Room } from "../components/Room.tsx";
+import type { Room } from "../components/room/Room.tsx";
 
 export interface RoomsContextType {
 	allRooms: Room[];

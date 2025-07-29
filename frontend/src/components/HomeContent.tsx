@@ -1,12 +1,12 @@
-import RoomRoute from "./RoomRoute/RoomRoute.tsx";
-import MapWithMarkers from "./MapWithMarkers.tsx";
-import BuildingDetails from "./BuildingDetails.tsx";
+import RoomRoute from "./room-route/RoomRoute.tsx";
+import MapWithMarkers from "./map-box/MapWithMarkers.tsx";
+import BuildingDetails from "./building/BuildingDetails.tsx";
 import { useState } from "react";
-import type { Room } from "./Room.tsx";
+import type { Room } from "./room/Room.tsx";
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 
-const Content = () => {
+const HomeContent = () => {
 	const [selectedBuilding, setSelectedBuilding] = useState<Room[] | null>(null);
 
 	return (
@@ -38,4 +38,4 @@ const Content = () => {
 	);
 };
 
-export default Content;
+export default HomeContent;

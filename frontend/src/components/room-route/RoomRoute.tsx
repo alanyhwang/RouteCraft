@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useRoomsContext } from "../../context/RoomsContext";
-import type { Room } from "../Room";
+import type { Room } from "../room/Room.tsx";
 import SortableRoom from "./SortableRoom";
 import SelectedRouteHeader from "./SelectedRouteHeader";
 
@@ -49,10 +49,10 @@ const RoomRoute: React.FC<RoomRouteProps> = ({ onSelectBuilding }) => {
 
 	return (
 		<div style={{ padding: "1rem" }}>
-			<SelectedRouteHeader count={selectedRooms.length} onMakeRoute={() => alert("Route created!")} />
+			<SelectedRouteHeader count={selectedRooms.length} />
 
 			{selectedRooms.length === 0 ? (
-				<p>No rooms added yet.</p>
+				<p style={{ textAlign: "center" }}>No rooms added yet.</p>
 			) : (
 				<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
 					<SortableContext items={roomIds} strategy={verticalListSortingStrategy}>

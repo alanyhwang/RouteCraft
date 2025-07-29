@@ -1,20 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import MapboxMap, { Marker, Popup, type MapRef } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
-import type { Room } from "./Room.tsx";
+import type { Room } from "../room/Room.tsx";
 import Pin from "./Pin.tsx";
-import { useRoomsContext } from "../context/RoomsContext";
+import { useRoomsContext } from "../../context/RoomsContext.tsx";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
 interface Props {
-	onSelectBuilding: (rooms: Room[]) => void;
+	onSelectBuilding?: (rooms: Room[]) => void;
 }
 
 const MapWithMarkers: React.FC<Props> = ({ onSelectBuilding }) => {
 	const mapRef = useRef<MapRef>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 
+	const [zoom, setZoom] = useState(16);
 	const [hoveredRoom, setHoveredRoom] = useState<Room | null>(null);
 	const { allRooms, selectedSingleRoom, selectedRooms } = useRoomsContext();
 
@@ -59,6 +60,7 @@ const MapWithMarkers: React.FC<Props> = ({ onSelectBuilding }) => {
 					zoom: 16,
 					pitch: 30,
 				}}
+				onMove={(evt) => setZoom(evt.viewState.zoom)}
 				mapStyle="mapbox://styles/yinghsu/cmdl2nlmk008s01rh9j8x36r5"
 				style={{ width: "100%", height: "100%" }}
 			>
@@ -76,11 +78,11 @@ const MapWithMarkers: React.FC<Props> = ({ onSelectBuilding }) => {
 							anchor="top"
 						>
 							<div
-								onClick={() => onSelectBuilding(rooms)}
+								onClick={() => onSelectBuilding?.(rooms)}
 								onMouseEnter={() => setHoveredRoom(firstRoom)}
 								onMouseLeave={() => setHoveredRoom(null)}
 							>
-								<Pin backgroundColor={pinColor} />
+								<Pin zoom={zoom} backgroundColor={pinColor} />
 							</div>
 						</Marker>
 					);

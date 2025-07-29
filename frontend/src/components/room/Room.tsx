@@ -11,3 +11,5 @@ export type Room = {
 	rooms_furniture: string;
 	rooms_href: string;
 };
+
+export type Coordinate = [number, number];
