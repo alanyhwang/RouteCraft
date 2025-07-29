@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { useRoomsContext } from "../../context/RoomsContext";
 import type { Room } from "../room/Room.tsx";
 import SortableRoom from "./SortableRoom";
@@ -11,7 +11,7 @@ interface RoomRouteProps {
 	onSelectBuilding: (rooms: Room[]) => void;
 }
 
-const RoomRoute: React.FC<RoomRouteProps> = ({ onSelectBuilding }) => {
+const RoomRoute = ({ onSelectBuilding }: RoomRouteProps) => {
 	const {
 		allRooms,
 		selectedRooms,

@@ -8,7 +8,7 @@ const RouteContent = () => {
 	return (
 		<div style={{ height: "95vh" }}>
 			<Allotment vertical>
-				<Allotment.Pane minSize={250} preferredSize="40%">
+				<Allotment.Pane minSize={450} preferredSize="40%">
 					<div className="route-content-top-pane">
 						<RoomDirections />
 					</div>

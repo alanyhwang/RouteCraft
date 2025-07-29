@@ -7,7 +7,7 @@ interface PinProps {
 	color?: string;
 }
 
-const Pin: React.FC<PinProps> = ({ zoom, backgroundColor = "#d00", color = "white" }) => {
+const Pin = ({ zoom, backgroundColor = "#d00", color = "white" }: PinProps) => {
 	const size = Math.max(1, Math.min(27, zoom * 2));
 
 	const style = {

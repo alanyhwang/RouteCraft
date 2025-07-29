@@ -1,12 +1,11 @@
 import type { Room } from "../room/Room.tsx";
 import RoomDetails from "../room/RoomDetails.tsx";
-import React from "react";
 
 interface Props {
 	rooms: Room[];
 }
 
-const BuildingDetails: React.FC<Props> = ({ rooms }) => {
+const BuildingDetails = ({ rooms }: Props) => {
 	return (
 		<div style={{ padding: "1rem", background: "#f8f8f8", borderTop: "1px solid #ccc" }}>
 			<h2>{rooms[0].rooms_fullname}</h2>

@@ -1,4 +1,3 @@
-import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { Room } from "../room/Room.tsx";
@@ -11,7 +10,7 @@ interface SortableRoomProps {
 	onRemove: (name: string) => void;
 }
 
-const SortableRoom: React.FC<SortableRoomProps> = ({ room, isSelected, onClick, onRemove }) => {
+const SortableRoom = ({ room, isSelected, onClick, onRemove }: SortableRoomProps) => {
 	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: room.rooms_name });
 
 	const style = {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProcessedRoute } from "../../helper/RouteHelpers.tsx";
 import { useRoomsContext } from "../../context/RoomsContext.tsx";
@@ -9,7 +9,7 @@ interface HeaderProps {
 	count: number;
 }
 
-const SelectedRouteHeader: React.FC<HeaderProps> = ({ count }) => {
+const SelectedRouteHeader = ({ count }: HeaderProps) => {
 	const { selectedRooms } = useRoomsContext();
 	const { setRouteData, setRoomsData } = useRouteDataContext();
 	const [isLoading, setIsLoading] = useState(false);

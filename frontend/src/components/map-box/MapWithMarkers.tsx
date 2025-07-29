@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MapboxMap, { Marker, Popup, type MapRef } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { Room } from "../room/Room.tsx";
@@ -11,7 +11,7 @@ interface Props {
 	onSelectBuilding?: (rooms: Room[]) => void;
 }
 
-const MapWithMarkers: React.FC<Props> = ({ onSelectBuilding }) => {
+const MapWithMarkers = ({ onSelectBuilding }: Props) => {
 	const mapRef = useRef<MapRef>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 

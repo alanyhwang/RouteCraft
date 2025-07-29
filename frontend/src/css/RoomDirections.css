@@ -1,12 +1,78 @@
 .room-directions-container {
+	display: flex;
+	padding: 1rem;
+	overflow-x: auto;
+	white-space: nowrap;
+	height: 100%;
+	width: 100%;
+}
+
+.room-directions-container.horizontal {
+	display: flex;
+	align-items: center;
+}
+
+.room-direction-block {
+	display: flex;
+	align-items: center;
+}
+
+.room-card {
+	vertical-align: top;
+	width: 275px;
+	margin-right: 1rem;
+	padding: 5px;
+	border-radius: 8px;
+	background-color: #c8c39f;
+	text-align: left;
+	text-wrap: auto;
+	align-self: flex-start;
 	box-sizing: border-box;
+}
+
+.room-directions-container.no-route {
+	--gradDark: hsl(120, 7%, 14%);
+	--gradLight: hsl(84, 66%, 24%);
+	background: linear-gradient(to bottom, var(--gradDark), var(--gradLight));
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	height: 100%;
+	font-size: 1.5rem;
+	color: #ffffff;
+}
+
+.room-directions-wrapper {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	width: 100%;
 	height: 100%;
 	--gradDark: hsl(120, 7%, 14%);
-	--gradLight: hsl(92, 34%, 33%);
+	--gradLight: hsl(84, 66%, 24%);
 	background: linear-gradient(to bottom, var(--gradDark), var(--gradLight));
-	padding: 120px 40px 40px 40px;
-	text-align: center;
+	color: #000000;
+	position: relative;
+}
+
+.room-directions-container {
+	display: flex;
+	padding: 1rem;
+	overflow-x: auto;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.route-summary {
+	position: absolute;
+	bottom: 0.5rem;
+	left: 1rem;
+	font-size: 1.3rem;
+	font-weight: bold;
+	color: #cef4a1;
+}
+
+.direction-arrow-wrapper {
+	display: flex;
+	align-items: center;
 }
