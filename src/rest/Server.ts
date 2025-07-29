@@ -27,7 +27,7 @@ export default class Server {
 		// NOTE: you can serve static frontend files in from your express server
 		// by uncommenting the line below. This makes files in ./frontend/public
 		// accessible at http://localhost:<port>/
-		// this.express.use(express.static("./frontend/public"));
+		this.express.use(express.static("./frontend/public"));
 	}
 
 	/**
@@ -99,7 +99,6 @@ export default class Server {
 		// http://localhost:4321/echo/hello
 		this.express.get("/echo/:msg", Server.echo);
 
-		// TODO: your other endpoints should go here
 		// PUT /dataset/:id/:kind → addDataset
 		this.putMethod();
 

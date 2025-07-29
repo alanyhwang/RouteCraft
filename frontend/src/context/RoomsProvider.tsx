@@ -2,6 +2,7 @@ import { type ReactNode, useEffect, useState } from "react";
 import type { Room } from "../components/room/Room.tsx";
 import { RoomsContext, type RoomsContextType } from "./RoomsContext.tsx";
 import exampleRoomData from "../../data/testroomdatafull.json";
+import { fetchRoomsApi } from "../api/insightApi.tsx";
 
 interface RoomsProviderProps {
 	children: ReactNode;
@@ -11,6 +12,27 @@ export const RoomsProvider = ({ children }: RoomsProviderProps) => {
 	const [selectedRooms, setSelectedRooms] = useState<Room[]>([]);
 	const [selectedSingleRoom, setSelectedSingleRoom] = useState<Room | null>(null);
 	const [allRooms, setAllRooms] = useState<Room[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const loadRooms = async () => {
+			try {
+				setLoading(true);
+				const result = await fetchRoomsApi();
+				setAllRooms(result);
+			} catch (err) {
+				console.error("Failed to fetch rooms", err);
+				setError("Failed to load rooms.");
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		loadRooms().catch((e) => {
+			console.error("Unexpected uncaught error loading rooms", e);
+		});
+	}, []);
 
 	useEffect(() => {
 		const storedSelectedRooms = localStorage.getItem("storedSelectedRooms");
@@ -67,5 +89,9 @@ export const RoomsProvider = ({ children }: RoomsProviderProps) => {
 		selectedSingleRoom,
 		setSelectedSingleRoom,
 	};
-	return <RoomsContext.Provider value={value}>{children}</RoomsContext.Provider>;
+	return (
+		<RoomsContext.Provider value={value}>
+			{loading ? <div>Loading rooms...</div> : error ? <div>{error}</div> : children}
+		</RoomsContext.Provider>
+	);
 };
