@@ -1,8 +1,8 @@
 import "allotment/dist/style.css";
 import { Allotment } from "allotment";
-import MapWithMarkers from "./map-box/MapWithMarkers.tsx";
 import RoomDirections from "./RoomDirections.tsx";
 import "../css/RouteContent.css";
+import MapWithRoute from "./map-box/MapWithRoute.tsx";
 
 const RouteContent = () => {
 	return (
@@ -15,7 +15,7 @@ const RouteContent = () => {
 				</Allotment.Pane>
 				<Allotment.Pane minSize={100}>
 					<div className="route-content-panes">
-						<MapWithMarkers />
+						<MapWithRoute />
 					</div>
 				</Allotment.Pane>
 			</Allotment>

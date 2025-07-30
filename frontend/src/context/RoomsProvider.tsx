@@ -15,7 +15,7 @@ export const RoomsProvider = ({ children }: RoomsProviderProps) => {
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		const loadRooms = async () => {
+		(async () => {
 			try {
 				setLoading(true);
 				const result = await fetchRoomsApi();
@@ -26,11 +26,7 @@ export const RoomsProvider = ({ children }: RoomsProviderProps) => {
 			} finally {
 				setLoading(false);
 			}
-		};
-
-		loadRooms().catch((e) => {
-			console.error("Unexpected uncaught error loading rooms", e);
-		});
+		})();
 	}, []);
 
 	useEffect(() => {
