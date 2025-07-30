@@ -9,7 +9,7 @@ export const lineLayerStyle: LineLayerSpecification = {
 		"line-cap": "round",
 	},
 	paint: {
-		"line-color": "#007aff",
+		"line-color": "#ea2323",
 		"line-width": 10,
 	},
 };
