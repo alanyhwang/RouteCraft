@@ -2,11 +2,8 @@
 
 .sketchy {
 	border: 3px solid #265526;
-	font-size: 1.5rem;
 	border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
-	text-transform: uppercase;
 	letter-spacing: 0.3ch;
-	background: #ffffff;
 
 	&::before {
 		content: '';
@@ -21,4 +18,9 @@
 		border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
 		pointer-events: none;
 	}
+}
+
+.top-menu {
+	font-size: 1.5rem;
+	text-transform: uppercase;
 }

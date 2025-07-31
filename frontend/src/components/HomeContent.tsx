@@ -11,7 +11,7 @@ const HomeContent = () => {
 	const [selectedBuilding, setSelectedBuilding] = useState<Room[] | null>(null);
 
 	return (
-		<div className="home-content bg-animated">
+		<div className="home-content">
 			<Allotment>
 				<Allotment.Pane minSize={200} preferredSize={375} snap>
 					<div style={{ height: "100%", overflowY: "auto" }}>

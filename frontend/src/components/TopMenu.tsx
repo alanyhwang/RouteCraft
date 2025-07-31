@@ -6,7 +6,7 @@ import "../css/SketchyBorder.css";
 
 function TopMenu() {
 	return (
-		<Navbar expand="lg" className="navbar navbar-dark bg-dark py-2 sketchy">
+		<Navbar expand="lg" className="navbar navbar-dark bg-dark py-2 sketchy top-menu">
 			<Container>
 				<Navbar.Brand href="/">RouteCraft</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />

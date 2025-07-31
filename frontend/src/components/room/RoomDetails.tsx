@@ -1,6 +1,7 @@
 import type { Room } from "./Room.tsx";
 import { useRoomsContext } from "../../context/RoomsContext.tsx";
 import "../../css/RoomDetails.css";
+import AnimatedButton from "../AnimatedButton.tsx";
 
 interface Props {
 	room: Room;
@@ -44,50 +45,25 @@ const RoomDetails = ({ room, showRemoveButton = false, onRemove, detailed = fals
 				<div>
 					<strong>Furniture:</strong> {room.rooms_furniture}
 				</div>
-				{detailed && (
-					<>
-						<a href={room.rooms_href} target="_blank" rel="noopener noreferrer">
-							View More
-						</a>
-					</>
-				)}
 			</div>
 
 			{!hideButtons &&
 				(showRemoveButton ? (
-					<button
+					<AnimatedButton
+						text="Remove Room"
 						onClick={(e) => {
 							e.stopPropagation();
 							onRemove?.(room.rooms_name);
 						}}
-						style={{
-							marginTop: "0.5rem",
-							padding: "0.5rem 1rem",
-							backgroundColor: "#dc3545",
-							color: "white",
-							border: "none",
-							borderRadius: "4px",
-							cursor: "pointer",
-						}}
-					>
-						Remove Room
-					</button>
+						variant="remove"
+					/>
 				) : (
-					<button
+					<AnimatedButton
+						text={isAlreadyAdded ? "Already Added" : "Add Room"}
 						onClick={() => addToSelectedRooms(room)}
 						disabled={isAlreadyAdded}
-						style={{
-							marginTop: "0.5rem",
-							padding: "0.5rem 1rem",
-							cursor: isAlreadyAdded ? "not-allowed" : "pointer",
-							backgroundColor: isAlreadyAdded ? "#ccc" : "#007bff",
-							color: "white",
-							border: "none",
-							borderRadius: "4px",
-						}}
-					>
-						{isAlreadyAdded ? "Already Added" : "Add Room"}
-					</button>
+						variant={isAlreadyAdded ? "default" : "add"}
+					/>
 				))}
 		</div>
 	);
