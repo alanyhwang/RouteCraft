@@ -1,0 +1,22 @@
+.about-container {
+	padding: 2rem;
+	min-height: 25vh;
+	width: auto;
+	max-width: 25vw;
+	position: relative;
+	background: rgba(24, 78, 22, 0.5);
+	color: #3bfb65;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 1.2vw;
+	border: 1px solid rgba(59, 251, 101, 0.4);
+	border-radius: 16px;
+	backdrop-filter: blur(4px);
+	box-shadow: 0 0 12px rgba(97, 243, 125, 0.7);
+	box-sizing: border-box;
+}
+
+.tech-subsection {
+	padding-left: 20px;
+}

@@ -1,0 +1,52 @@
+/*inspired by https://codepen.io/vlt_dev/pen/NWMNzpE*/
+
+.arrow {
+	position: relative;
+	top: 50%;
+	left: -8%;
+	transform: rotate(270deg);
+	cursor: pointer;
+}
+
+.arrow span {
+	display: block;
+	width: 1.3vw;
+	height: 1.3vw;
+	border-bottom: 5px solid #239cea;
+	border-right: 5px solid green;
+	transform: rotate(45deg);
+	margin: -20px;
+	animation: animate 2s infinite;
+}
+
+.arrow span:nth-child(2) {
+	animation-delay: -0.2s;
+}
+
+.arrow span:nth-child(3) {
+	animation-delay: -0.4s;
+}
+
+@keyframes animate {
+	0% {
+		opacity: 0;
+		transform: rotate(45deg) translate(-20px, -20px);
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: rotate(45deg) translate(20px, 20px);
+	}
+}
+
+.direction-arrow-horizontal {
+	width: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-right: 1rem;
+	font-weight: bold;
+	color: #3bbc58;
+}

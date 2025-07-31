@@ -1,0 +1,89 @@
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+.spinner {
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	border: 2px solid white;
+	border-top: 2px solid transparent;
+	border-radius: 50%;
+	animation: spin 0.6s linear infinite;
+}
+
+.encrypt-style-button {
+	position: relative;
+	overflow: hidden;
+	border-radius: 0.5rem;
+	border: 1px solid #737373;
+	background-color: #404040;
+	padding: 0.5rem 1rem;
+	font-family: monospace;
+	font-weight: 500;
+	text-transform: uppercase;
+	color: #d4d4d4;
+	cursor: pointer;
+	margin-top: 0.75rem;
+	transition: color 0.3s;
+}
+
+.encrypt-style-button:hover {
+	color: #e3c300;
+}
+
+.encrypt-style-button.disabled {
+	cursor: not-allowed;
+	background-color: #999;
+	color: #eee;
+	border-color: #888;
+}
+
+.encrypt-style-button.remove {
+	background-color: #7c1d1d;
+	border-color: #9e2d2d;
+}
+
+.encrypt-style-button.add {
+	background-color: #57831d;
+	border-color: #58b332;
+}
+
+.encrypt-style-button.make-route {
+	background-color: #1c7a34;
+	border-color: #58b332;
+}
+
+.encrypt-style-button.loading {
+	background-color: #494949;
+	border-color: #151515;
+}
+
+.button-content {
+	position: relative;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.button-gradient {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	transform: scale(1.25);
+	background: linear-gradient(
+		to top,
+		rgba(13, 27, 227, 0) 40%,
+		rgb(239, 83, 83) 50%,
+		rgba(19, 31, 163, 0) 60%
+	);
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.encrypt-style-button:hover .button-gradient {
+	opacity: 1;
+}

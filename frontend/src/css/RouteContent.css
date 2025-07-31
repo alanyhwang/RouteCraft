@@ -1,0 +1,14 @@
+.route-content-container {
+	height: 95vh;
+	position: relative;
+	z-index: 1;
+}
+
+.route-content-top-pane {
+	height: 100%;
+	border-bottom: 2px solid #000000;
+}
+
+.route-content-bot-pane {
+	height: 100%;
+}

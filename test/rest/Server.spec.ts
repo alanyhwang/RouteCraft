@@ -1,3 +1,5 @@
+// file created with the help of ChatGPT (customized and modified ChatGPT generated templates)
+
 import { expect } from "chai";
 import request from "supertest";
 import { StatusCodes } from "http-status-codes";
@@ -90,7 +92,6 @@ describe("Facade C3", function () {
 					.put(ENDPOINT_URL)
 					.send(roomsZipFile)
 					.set("Content-Type", "application/x-zip-compressed");
-
 				expect(res.status).to.be.equal(StatusCodes.OK);
 				expect(res.body).to.have.property("result");
 				expect(res.body.result).to.be.an("array");
