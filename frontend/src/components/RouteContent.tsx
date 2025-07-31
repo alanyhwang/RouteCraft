@@ -8,7 +8,7 @@ import { MapInteractionProvider } from "../context/RouteMapInteractionContextPro
 const RouteContent = () => {
 	return (
 		<MapInteractionProvider>
-			<div style={{ height: "95vh" }}>
+			<div className="route-content-container">
 				<Allotment vertical>
 					<Allotment.Pane minSize={450} preferredSize="40%">
 						<div className="route-content-top-pane">
@@ -16,7 +16,7 @@ const RouteContent = () => {
 						</div>
 					</Allotment.Pane>
 					<Allotment.Pane minSize={100}>
-						<div className="route-content-panes">
+						<div className="route-content-bot-pane">
 							<MapWithRoute />
 						</div>
 					</Allotment.Pane>

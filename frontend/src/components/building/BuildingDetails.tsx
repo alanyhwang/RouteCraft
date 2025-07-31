@@ -7,7 +7,7 @@ interface Props {
 
 const BuildingDetails = ({ rooms }: Props) => {
 	return (
-		<div style={{ padding: "1rem", background: "#f8f8f8", borderTop: "1px solid #ccc" }}>
+		<div style={{ padding: "1rem", borderTop: "1px solid #ccc" }}>
 			<h2>{rooms[0].rooms_fullname}</h2>
 			<p>
 				<strong>Address:</strong> {rooms[0].rooms_address}

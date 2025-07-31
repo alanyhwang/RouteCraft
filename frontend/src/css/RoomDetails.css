@@ -1,9 +1,16 @@
 .room-details-wrapper {
+	display: inline-block;
+	background: linear-gradient(33deg, rgba(17, 50, 32, 0.7), rgba(1, 96, 1, 0.7));
+	border-radius: 20px;
+	box-shadow: 0 5px 10px #0002;
+	position: relative;
 	padding: 1rem;
-	background: #eee;
-	border-top: 1px solid #ccc;
 	box-sizing: border-box;
+	color: #a4e494;
+	overflow: hidden;
+	border: 7px solid transparent;
 }
+
 
 .room-details-wrapper h5 {
 	margin-top: 0;

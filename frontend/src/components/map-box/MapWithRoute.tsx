@@ -63,7 +63,7 @@ const MapWithRoute = () => {
 			const bounds = getBoundsFromCoordinates(leg.coordinates);
 			mapRef.current.fitBounds(bounds, {
 				padding: 100,
-				duration: 500,
+				duration: 400,
 				pitch: 50,
 			});
 		}
@@ -82,6 +82,7 @@ const MapWithRoute = () => {
 					zoom: 15,
 					pitch: 50,
 				}}
+				maxZoom={18}
 				mapStyle={MAP_STYLE}
 				onMove={(evt) => setZoom(evt.viewState.zoom)}
 				onLoad={() => setMapLoaded(true)}

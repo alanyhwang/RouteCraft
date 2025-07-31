@@ -18,9 +18,8 @@ const SortableRoom = ({ room, isSelected, onClick, onRemove }: SortableRoomProps
 		transition,
 		marginBottom: "0.2rem",
 		padding: "0.5rem",
-		border: `3px solid ${isSelected ? "#007bff" : "#ccc"}`,
 		borderRadius: "4px",
-		backgroundColor: isSelected ? "#e7f1ff" : "#f9f9f9",
+		backgroundColor: isSelected ? "rgba(66,108,43, 0.4)" : "rgba(112,100,100, 0.4)",
 		cursor: "default",
 		display: "flex",
 		alignItems: "center",
@@ -34,7 +33,7 @@ const SortableRoom = ({ room, isSelected, onClick, onRemove }: SortableRoomProps
 				style={{ cursor: "grab", display: "inline-flex", alignItems: "center", marginRight: "0.5rem" }}
 				aria-label="Drag handle"
 			>
-				<span className="material-icons" style={{ fontSize: 20, color: "#555" }}>
+				<span className="material-icons" style={{ fontSize: 20, color: "#ffffff" }}>
 					drag_indicator
 				</span>
 			</div>

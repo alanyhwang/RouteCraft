@@ -5,6 +5,7 @@ import About from "./pages/About.tsx";
 import TopMenu from "./components/TopMenu.tsx";
 import RoutePage from "./pages/RoutePage.tsx";
 import { Providers } from "./context/Providers.tsx";
+import StarField from "./components/StarField.tsx";
 
 const App = () => {
 	return (
@@ -15,6 +16,7 @@ const App = () => {
 				<Route path="/route" element={<RoutePage />} />
 				<Route path="/about" element={<About />} />
 			</Routes>
+			<StarField />
 		</Providers>
 	);
 };

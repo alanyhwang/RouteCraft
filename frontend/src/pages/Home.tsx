@@ -3,7 +3,7 @@ import HomeContent from "../components/HomeContent.tsx";
 
 const Home = () => {
 	return (
-		<div style={{ display: "flex", flexDirection: "column", height: "94vh" }}>
+		<div style={{ display: "flex", flexDirection: "column", height: "92vh" }}>
 			<HomeContent />
 		</div>
 	);

@@ -1,0 +1,15 @@
+.about-container {
+	padding: 20px;
+	height: 450px;
+	width: 250px;
+	position: relative;
+	background: rgba(24, 78, 22, 0.5);
+	color: #3bfb65;
+	top: 30%;
+	left: 50%;
+	transform: translate(-50%, -50%)
+}
+
+.tech-subsection {
+	padding-left: 20px;
+}

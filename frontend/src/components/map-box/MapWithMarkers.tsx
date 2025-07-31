@@ -94,6 +94,7 @@ const MapWithMarkers = ({ onSelectBuilding }: Props) => {
 						latitude={hoveredRoom.rooms_lat}
 						closeButton={false}
 						closeOnClick={false}
+						style={{ color: "black" }}
 						anchor="bottom"
 					>
 						{hoveredRoom.rooms_fullname}

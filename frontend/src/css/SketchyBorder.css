@@ -1,0 +1,24 @@
+/*source: https://codepen.io/piccalilli/pen/MPLzay*/
+
+.sketchy {
+	border: 3px solid #265526;
+	font-size: 1.5rem;
+	border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+	text-transform: uppercase;
+	letter-spacing: 0.3ch;
+	background: #ffffff;
+
+	&::before {
+		content: '';
+		border: 2px solid #605223;
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate3d(-50%, -50%, 0) scale(1.015) rotate(0.5deg);
+		border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
+		pointer-events: none;
+	}
+}
