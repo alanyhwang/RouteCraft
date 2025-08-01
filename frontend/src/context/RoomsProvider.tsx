@@ -86,7 +86,7 @@ export const RoomsProvider = ({ children }: RoomsProviderProps) => {
 				<div>Loading rooms...</div>
 			) : error ? (
 				<>
-					<div>{error} Refresh the page.</div> <div>{children}</div>
+					<div style={{ color: "red" }}>{error} Refresh the page.</div> <div>{children}</div>
 				</>
 			) : (
 				children

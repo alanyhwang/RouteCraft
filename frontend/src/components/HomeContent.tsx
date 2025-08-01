@@ -26,7 +26,7 @@ const HomeContent = () => {
 				</Allotment.Pane>
 
 				<Allotment.Pane minSize={200} preferredSize={300} snap>
-					<div style={{ height: "100%", overflowY: "auto", borderLeft: "1px solid #ccc" }}>
+					<div style={{ height: "100%", overflowY: "auto" }}>
 						{selectedBuilding ? (
 							<BuildingDetails rooms={selectedBuilding} />
 						) : (
