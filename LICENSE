@@ -1,5 +1,9 @@
 # License
 
+Authors note: Backend Data Processor & Query Logics are removed
+from this repository in consideration to future course development.
+Frontend logics are public as these are developed by us from scratch.
+
 Solutions to the UBC CPSC 310 course project are considered
 private and should not be shared on public repositories.
 
